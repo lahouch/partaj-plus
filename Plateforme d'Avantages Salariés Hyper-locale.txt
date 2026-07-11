@@ -1,0 +1,107 @@
+﻿Ce type de projet n'a pas un seul nom gravé dans le marbre, mais dans le monde du business B2B, il porte plusieurs appellations selon l'angle sous lequel tu le présentes.
+Voici les noms officiels (le jargon business) et des idées de noms commerciaux pour ta marque à Bruxelles :
+1. Le nom générique (Le jargon Business)
+* Une Plateforme d'Avantages Salariés Hyper-locale : C'est le terme technique le plus exact.
+* Un "Club Privilège" Inter-Entreprises : Ça sonne très haut de gamme pour les patrons.
+* Une Centrale d'Achats Locaux pour PME : Idéal pour mettre en avant le fait que tu regroupes plusieurs petites structures pour obtenir la force de frappe d'une grande.
+2. Idées de noms commerciaux (Pour ta marque à Bruxelles)
+Si tu dois créer ton logo ou ta page de présentation, il te faut un nom qui claque, qui parle aux Belges et qui évoque les économies. Voici quelques pistes :
+* BxlAvantages ou Avantages.brussels (Simple, clair, corporate)
+* LocalPerks (Plus moderne, "Perks" veut dire avantages en anglais)
+* BeClub / BePrivilège (Le "Be" pour Belgique et pour le verbe être)
+* ZinnekePass (Très bruxellois, crée une forte identité locale)
+* PME-Power (Met l'accent sur la force que tu donnes aux petites entreprises)
+3. Comment le présenter au patron en une phrase ?
+Quand tu appelleras un gérant à Anderlecht ou Schaerbeek, tu ne vas pas lui dire "Je vends des codes promos". Tu vas lui dire :
+"Je suis le fondateur de [Nom de ta marque], le premier Club d'Avantages Hyper-Locaux qui permet aux PME bruxelloises d'offrir du pouvoir d'achat à leurs salariés, sans aucun frais de gestion."
+
+
+
+
+
+
+Voici ta feuille de route ultime, découpée dans le temps, pour lancer ton projet commune par commune à Bruxelles, ainsi que la méthode exacte pour alimenter ton catalogue chaque mois sans y passer tes nuits.
+📅 Partie 1 : Le Plan de Lancement Chronologique (30 Jours)
+Voici ton calendrier d'action. Concentre-toi sur une seule commune test pour ce premier mois (par exemple : Anderlecht ou Evere).
+Semaine 1 (Jours 1 à 7) : La Fondation (Zéro Dépense)
+* Jours 1 à 3 : Création du catalogue "Socle". Crée un document Google Docs ou Notion propre. Mets-y les 5 à 10 offres nationales belges valables partout (ex: les réductions Kinepolis, le code de bienvenue Zalando.be, l'astuce Booking.com, les promos Walibi). Ce socle sera le même pour toutes les communes.
+* Jours 4 à 5 : Chasse aux commerces de la commune test. Ouvre Google Maps sur ta commune cible. Repère 3 commerces de loisirs/restauration (ex: un laser game, un resto de burger sympa, un centre de padel). Contacte-les par téléphone ou Instagram avec le script de gratuité. Définis avec eux un code verbal (ex: "ANDERLECHT-PROMO"). Ajoutez-les au catalogue.
+* Jours 6 à 7 : Extraction de la liste de PME. Va sur LinkedIn et filtre : Entreprises / 11-50 salariés / Localisation : [Ta Commune]. Note les 30 premières PME que tu trouves dans un fichier Excel avec le nom du gérant ou du responsable RH.
+Semaine 2 (Jours 8 à 14) : La Prospection Hyper-Locale
+* Jours 8 à 12 : Envoi des messages. Contacte 6 gérants de PME de ta liste par jour sur LinkedIn (ou par email/téléphone). Propose-leur l'offre : "Le catalogue d'avantages spécial [Nom de la commune] 100% gratuit pendant 1 mois pour vos salariés".
+* Jours 13 à 14 : Envoi de la Démo. Dès qu'un patron se montre curieux, envoie-lui le lien de ton catalogue (avec le socle national + les 3 commerces de sa commune).
+Semaine 3 (Jours 15 à 21) : Phase de Test Gratuit
+* Jour 15 : Activation. Le patron accepte. Tu lui envoies le "Pass Digital" (l'image Canva avec un QR Code) par email. Il le transfère à ses salariés.
+* Jours 16 à 21 : Suivi léger. Envoie un petit message au patron après 5 jours : "Bonjour, vos salariés ont-ils bien reçu leur pass ? N'hésitez pas s'ils ont des questions." (Cela montre ton professionnalisme).
+Semaine 4 (Jours 22 à 30) : La Conversion Payante
+* Jours 22 à 25 : L'appel de fin d'essai. Contacte le patron : "Le mois d'essai se termine. Les salariés ont pu profiter des réductions Kinepolis et des commerces du coin. Pour continuer à leur offrir cela le mois prochain avec les nouvelles promos, l'abonnement est de 49 €/mois sans engagement."
+* Jours 26 à 30 : Facturation. S'il dit oui (ce qui est souvent le cas si les salariés ont aimé), envoie-lui ton lien de paiement Stripe. Félicitations, tu as ton premier revenu récurrent.
+🔄 Partie 2 : Comment remplir le catalogue chaque mois ?
+C'est la question de la gestion du temps. Tu te demandes sûrement comment gérer le catalogue si tu as plusieurs communes. L'astuce est de ne jamais faire 19 catalogues différents.
+Tu fais UN SEUL catalogue global avec des onglets ou des sections par commune. Quand tu vends le projet à Anderlecht, tu leur montres l'onglet Anderlecht, mais ils ont aussi accès au reste.
+Voici ta routine mensuelle de mise à jour (qui te prendra 2 heures maximum par mois, idéalement le 28 ou 29 de chaque mois) :
+1. La mise à jour des Grandes Marques (1 heure)
+* Va sur les sites belges de codes promos (comme Radins.com ou Poulpeo filtrés sur la Belgique) ou directement sur les pages d'accueil de Zalando, Fnac.be, Bol.com.
+* Remplace les codes qui ont expiré par les nouveaux codes du mois.
+* Saisonnalité : Adapte la mise en avant. En janvier/juillet, mets un gros titre "Spécial Soldes". En mai, mets en avant "Préparez vos parcs d'attractions (Walibi/Pairi Daiza)". En décembre, écris "Vos cadeaux de Noël moins chers".
+2. La mise à jour des Commerces Locaux (30 minutes)
+* Tu n'as pas besoin de changer les offres des commerces locaux tous les mois ! Une fois qu'un resto accepte de faire -15% ou d'offrir le café, c'est généralement une offre permanente (valable toute l'année).
+* L'action du mois : Envoie juste un petit message WhatsApp automatique à tes 3-4 commerçants partenaires de la commune : "Bonjour ! On valide la même offre pour le mois prochain auprès des salariés ?". Ils te diront "Oui, parfait".
+3. L'Ajout d'une "Exclusivité Flash" (30 minutes)
+Pour montrer au patron que le catalogue "vit" et bouge, ajoute une seule grosse nouveauté chaque mois en haut de page.
+* Exemple : Un partenariat temporaire avec un grand événement bruxellois (ex: une foire, un salon, une expo à Brussels Expo), ou simplement une réduction temporaire négociée avec un nouveau food-truck ou un pop-up store de la commune.
+En suivant cette structure, ton catalogue reste frais, attractif, et te demande un travail minime une fois que la machine est lancée !
+
+
+
+
+
+
+Pour chaque type d'offre, la méthode d'utilisation est différente. C'est justement cela que tu vas détailler dans ton catalogue (le Google Doc, Notion ou PDF) pour que ce soit d'une simplicité enfantine pour le salarié.
+Voici exactement comment les salariés vont en profiter concrètement pour chacune des offres de ton "socle" :
+1. Pour Kinepolis (Le système de billetterie)
+Tu ne vas pas négocier directement avec Kinepolis au début. Tu vas utiliser leur système public de "Kinepolis Movie Card" ou de tickets vendus en ligne par lot.
+* Dans ton catalogue : Tu mets un lien direct vers la page d'achat de ces cartes sur le site de Kinepolis.
+* Comment le salarié en profite : Il clique sur ton lien, achète sa carte de 5 ou 10 tickets en ligne (ce qui fait tomber le prix du ticket à environ 11 € au lieu de 14 € ou 15 € à l'unité). Il reçoit ses codes par email et n'a plus qu'à les scanner aux bornes du cinéma à Bruxelles (Anderlecht ou Heysel).
+2. Pour Zalando.be (Le système de code promo / newsletter)
+Zalando offre régulièrement -10% ou -15% aux nouveaux clients ou via leur application.
+* Dans ton catalogue : Tu rédiges une mini-procédure claire. Tu mets le bouton : "Cliquez ici pour activer vos -10% chez Zalando".
+* Comment le salarié en profite : Le lien renvoie vers la page d'inscription à la newsletter de Zalando. Le salarié entre son adresse email (perso ou pro), reçoit son code promo unique en 2 minutes par mail, et l'insère dans son panier au moment de payer ses vêtements.
+3. Pour l'astuce Booking.com (Le programme de fidélité débloqué)
+Beaucoup de gens ignorent comment fonctionne le programme Genius de Booking (qui donne -10% à -20% sur les hôtels et les petits-déjeuners gratuits).
+* Dans ton catalogue : Tu crées une section "Astuce Voyage". Tu expliques graphiquement aux salariés qu'il leur suffit de créer un compte gratuit sur Booking pour passer "Genius Niveau 1" instantanément, ou tu partages les liens de redirections partenaires (comme le fait de passer par le site d'Iberia ou de banques qui reversent 4% à 10% de cashback sur Booking).
+* Comment le salarié en profite : Il suit ton guide pas-à-pas caché derrière ton lien, clique, et réserve ses vacances à prix réduit.
+4. Pour les promos Walibi / Pairi Daiza (L'achat anticipé)
+Les parcs d'attractions belges font payer le prix fort aux gens qui achètent leur ticket aux caisses le jour même. En revanche, leurs tarifs en ligne "Early Bird" (acheté au moins 3 à 7 jours à l'avance) sont beaucoup moins chers.
+* Dans ton catalogue : Tu mets un gros bouton rouge : "Réservez vos entrées Walibi à -20%".
+* Comment le salarié en profite : Le lien l'envoie directement sur la billetterie en ligne du parc, sur la bonne catégorie de ticket (ex: le ticket daté à l'avance). Le salarié paie ses places en ligne avec sa propre carte bancaire, les télécharge sur son smartphone, et les fait scanner à l'entrée du parc.
+En résumé : Quel est ton rôle là-dedans ?
+Ton catalogue sert de guide et de centralisateur. Le salarié ouvre ton document sur son téléphone, il voit toutes les meilleures manières d'économiser de l'argent en Belgique, et il n'a plus qu'à cliquer sur tes liens pour appliquer les astuces ou les codes.
+Pour lui, c'est un confort absolu : tout est regroupé au même endroit, testé et validé par ta plateforme !
+
+
+
+
+
+
+
+
+Oui, absolument ! C'est même une excellente idée pour générer une deuxième source de revenus en plus de l’abonnement payé par le patron de la PME.
+En ajoutant des liens d'affiliation (Amazon, Bol.com, ou Fnac), tu touches une commission (généralement entre 3% et 10%) sur chaque achat que les salariés font en passant par ton catalogue. Pour eux, le prix ne change pas, mais pour toi, ça s'accumule.
+Voici comment mettre cela en place proprement dans ton catalogue :
+1. Comment fonctionne l'affiliation (Amazon / Bol.com) ?
+1. L'inscription : Tu t'inscris gratuitement au programme "Amazon Partenaires" (ou Bol.com Partnerprogram, très puissant en Belgique).
+2. La création du lien : Quand tu vois une super promo sur Amazon (ex: une friteuse -30%, un pack de café, ou un robot aspirateur), le site te fournit un lien spécial, unique, qui contient ton code de partenaire.
+3. L'intégration : Tu colles ce lien dans ton catalogue sous forme de bouton : "👉 Voir la super promo Amazon du moment".
+2. La section "Ventes Flash de la Semaine" (Pour créer de l'urgence)
+Puisque les promos Amazon ou Bol.com changent très vite, tu ne peux pas les laisser indéfiniment dans ton catalogue.
+* L'astuce : Crée un encadré tout en haut de ton catalogue appelé "🔥 Les Bons Plans Flash de la Semaine".
+* Chaque lundi, tu y mets 3 ou 4 produits stars en grosse promotion (high-tech, électroménager, cuisine). Cela prend 5 minutes à mettre à jour et cela incite les salariés à ouvrir ton catalogue toutes les semaines pour ne rien rater.
+3. Ce que tu dois déclarer (Transparence)
+La loi (et les conditions d'Amazon) t'oblige à être transparent. En bas de ton catalogue, ajoute simplement une petite phrase discrète mais claire :
+"Note : Pour certains produits (comme Amazon ou Bol.com), notre plateforme utilise des liens d'affiliation. Cela nous permet de toucher une petite commission pour faire vivre le catalogue, sans aucun surcoût pour vous."
+4. L'effet "Double Jackpot" pour toi
+Imagine que tu as signé 10 PME de 20 salariés à Bruxelles. Cela te fait un réseau de 200 salariés qui consultent ton catalogue.
+* Tu gagnes 10 x 49 € = 490 € / mois grâce aux abonnements des patrons.
+* Si sur les 200 salariés, il y en a 40 qui cliquent sur tes liens Amazon/Bol.com chaque mois pour s'acheter un truc en promo, tu peux facilement ajouter 50 € à 150 € / mois de commissions d'affiliation.
+C'est une stratégie parfaite pour rentabiliser au maximum le catalogue d'une commune !
