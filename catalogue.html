@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partaj+ — Mon Catalogue d'Avantages</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #F5F5F5; min-height: 100vh; }
+
+        /* HEADER */
+        .catalog-header {
+            background: linear-gradient(135deg, #FF6B35 0%, #FF8F66 100%);
+            color: white;
+            padding: 20px 16px 24px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+        .catalog-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+        .catalog-logo span { opacity: 0.8; }
+        .catalog-commune { font-size: 0.85rem; opacity: 0.9; }
+        .catalog-user {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        /* BANNIERE IMPACT */
+        .impact-bar {
+            background: #FFF5F0;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #555;
+            border-bottom: 1px solid #FFE8DD;
+        }
+        .impact-bar strong { color: #FF6B35; }
+
+        /* FILTRES */
+        .filters {
+            display: flex;
+            gap: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .filters::-webkit-scrollbar { display: none; }
+        .filter-chip {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 2px solid #E5E5F0;
+            background: white;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-chip.active {
+            background: #FF6B35;
+            color: white;
+            border-color: #FF6B35;
+        }
+
+        /* SECTION TITRE */
+        .section-title {
+            padding: 8px 16px 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1A1A2E;
+        }
+
+        /* CARTE OFFRE */
+        .offer-list { padding: 0 16px 16px; }
+        .offer-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .offer-card:active { transform: scale(0.98); }
+
+        .offer-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+        .offer-emoji {
+            font-size: 2.2rem;
+            flex-shrink: 0;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F5F5F5;
+            border-radius: 14px;
+        }
+        .offer-info { flex: 1; }
+        .offer-info h4 { font-size: 1rem; font-weight: 700; color: #1A1A2E; margin-bottom: 2px; }
+        .offer-info p { font-size: 0.85rem; color: #888; line-height: 1.4; }
+
+        .offer-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-local { background: #E8F8F5; color: #06D6A0; }
+        .badge-national { background: #EBF2FA; color: #004E89; }
+        .badge-flash { background: #FFF0F3; color: #EF476F; }
+        .badge-populaire { background: #FFF5E6; color: #FF6B35; }
+
+        /* CODE PROMO */
+        .offer-code {
+            background: #F5F5F5;
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .offer-code-label { font-size: 0.75rem; color: #888; }
+        .offer-code-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #FF6B35;
+            letter-spacing: 1px;
+        }
+
+        /* BOUTON */
+        .offer-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-code {
+            background: #FF6B35;
+            color: white;
+        }
+        .btn-code:active { background: #E55A2B; }
+        .btn-link {
+            background: #004E89;
+            color: white;
+        }
+        .btn-link:active { background: #003D6B; }
+
+        /* FOOTER */
+        .catalog-footer {
+            text-align: center;
+            padding: 24px 16px 40px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        .catalog-footer a { color: #FF6B35; text-decoration: none; font-weight: 600; }
+
+        /* ANIMATION */
+        .offer-card { animation: fadeInUp 0.4s ease forwards; opacity: 0; }
+        .offer-card:nth-child(1) { animation-delay: 0s; }
+        .offer-card:nth-child(2) { animation-delay: 0.05s; }
+        .offer-card:nth-child(3) { animation-delay: 0.1s; }
+        .offer-card:nth-child(4) { animation-delay: 0.15s; }
+        .offer-card:nth-child(5) { animation-delay: 0.2s; }
+        .offer-card:nth-child(6) { animation-delay: 0.25s; }
+        .offer-card:nth-child(7) { animation-delay: 0.3s; }
+        .offer-card:nth-child(8) { animation-delay: 0.35s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1A1A2E;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="catalog-header">
+        <div class="catalog-logo">Partaj<span>+</span></div>
+        <div class="catalog-commune">📍 Anderlecht</div>
+        <div class="catalog-user">👤 Connecté via votre entreprise</div>
+    </div>
+
+    <!-- IMPACT BAR -->
+    <div class="impact-bar">
+        En utilisant ce catalogue, vous <strong>soutenez l'ASBL PARTAJOY</strong> et ses actions sociales ❤️
+    </div>
+
+    <!-- FILTRES -->
+    <div class="filters">
+        <button class="filter-chip active" data-filter="all">🔥 Tout</button>
+        <button class="filter-chip" data-filter="local">🏪 Local</button>
+        <button class="filter-chip" data-filter="national">🇧🇪 National</button>
+        <button class="filter-chip" data-filter="flash">⚡ Flash</button>
+    </div>
+
+    <!-- SECTION: POPULAIRES -->
+    <div class="section-title">🔥 Les plus populaires</div>
+    <div class="offer-list" id="offerList">
+
+        <!-- Kinepolis -->
+        <div class="offer-card" data-category="national">
+            <span class="offer-badge badge-populaire">Populaire</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🎬</div>
+                <div class="offer-info">
+                    <h4>Kinepolis Movie Card</h4>
+                    <p>-25% sur vos tickets cinéma avec la Movie Card</p>
+                </div>
+            </div>
+            <a href="https://www.kinepolis.be/fr/offres" target="_blank" class="offer-btn btn-link">Accéder à l'offre →</a>
+        </div>
+
+        <!-- Burger Factory -->
+        <div class="offer-card" data-category="local">
+            <span class="offer-badge badge-local">Local</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🍔</div>
+                <div class="offer-info">
+                    <h4>Burger Factory Anderlecht</h4>
+                    <p>1 café offert avec chaque menu acheté</p>
+                </div>
+            </div>
+            <div class="offer-code">
+                <span class="offer-code-label">Votre code :</span>
+                <span class="offer-code-value">ANDERLECHT-PROMO</span>
+            </div>
+            <button class="offer-btn btn-code" onclick="copyCode(this, 'ANDERLECHT-PROMO')">📋 Copier le code</button>
+        </div>
+
+        <!-- Zalando -->
+        <div class="offer-card" data-category="national">
+            <span class="offer-badge badge-national">National</span>
+            <div class="offer-top">
+                <div class="offer-emoji">👕</div>
+                <div class="offer-info">
+                    <h4>Zalando.be</h4>
+                    <p>-10% sur votre première commande via la newsletter</p>
+                </div>
+            </div>
+            <a href="https://www.zalando.be" target="_blank" class="offer-btn btn-link">Activer le code →</a>
+        </div>
+
+        <!-- Walibi -->
+        <div class="offer-card" data-category="flash">
+            <span class="offer-badge badge-flash">🔥 Flash</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🎢</div>
+                <div class="offer-info">
+                    <h4>Walibi Belgium</h4>
+                    <p>-20% sur les entrées en ligne (achat anticipé 7j)</p>
+                </div>
+            </div>
+            <a href="https://www.walibi.be/fr/billets" target="_blank" class="offer-btn btn-link">Réserver →</a>
+        </div>
+
+        <!-- Padel Club -->
+        <div class="offer-card" data-category="local">
+            <span class="offer-badge badge-local">Local</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🏓</div>
+                <div class="offer-info">
+                    <h4>Padel Club Anderlecht</h4>
+                    <p>-20% sur la location de terrain le mercredi</p>
+                </div>
+            </div>
+            <div class="offer-code">
+                <span class="offer-code-label">Votre code :</span>
+                <span class="offer-code-value">PADXL-20</span>
+            </div>
+            <button class="offer-btn btn-code" onclick="copyCode(this, 'PADXL-20')">📋 Copier le code</button>
+        </div>
+
+        <!-- Pizzeria -->
+        <div class="offer-card" data-category="local">
+            <span class="offer-badge badge-local">Local</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🍕</div>
+                <div class="offer-info">
+                    <h4>Pizzeria Chez Marco</h4>
+                    <p>1 pizza achetée, 1 offerte le mardi soir</p>
+                </div>
+            </div>
+            <div class="offer-code">
+                <span class="offer-code-label">Votre code :</span>
+                <span class="offer-code-value">MARCO21</span>
+            </div>
+            <button class="offer-btn btn-code" onclick="copyCode(this, 'MARCO21')">📋 Copier le code</button>
+        </div>
+
+        <!-- Booking -->
+        <div class="offer-card" data-category="national">
+            <span class="offer-badge badge-national">National</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🏨</div>
+                <div class="offer-info">
+                    <h4>Booking.com — Astuce Genius</h4>
+                    <p>Débloquez -10% à -20% sur les hôtels</p>
+                </div>
+            </div>
+            <a href="https://www.booking.com" target="_blank" class="offer-btn btn-link">Voir l'astuce →</a>
+        </div>
+
+        <!-- Amazon -->
+        <div class="offer-card" data-category="flash">
+            <span class="offer-badge badge-flash">🔥 Flash</span>
+            <div class="offer-top">
+                <div class="offer-emoji">🛒</div>
+                <div class="offer-info">
+                    <h4>Amazon — Promo de la semaine</h4>
+                    <p>Jusqu'à -40% sur la high-tech</p>
+                </div>
+            </div>
+            <a href="https://www.amazon.be" target="_blank" class="offer-btn btn-link">Voir les promos →</a>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="catalog-footer">
+        <p>Catalogue offert par <a href="#">Partaj+</a></p>
+        <p style="margin-top:4px">Une initiative de <strong>PARTAJOY asbl</strong> ❤️</p>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">Code copié !</div>
+
+    <script>
+        // FILTRES
+        const filterChips = document.querySelectorAll('.filter-chip');
+        const offerCards = document.querySelectorAll('.offer-card');
+
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                const filter = chip.dataset.filter;
+                offerCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeInUp 0.3s ease forwards';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // COPY CODE
+        function copyCode(btn, code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = 'Code ' + code + ' copié !';
+                toast.classList.add('show');
+                btn.textContent = '✅ Copié !';
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    btn.textContent = '📋 Copier le code';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
