@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARTAJ + — Votre Club Privilège PME</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Harmony & Growth
+         Background: #FAF9F6 (Linen - Sérénité)
+         Primary: #1B4332 (Deep Forest - Stabilité)
+         Secondary: #D4AF37 (Muted Gold - Privilège)
+         Accent: #E9ECEF (Soft Stone - Clarté)
+    -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF9F6;
+            color: #1A1A1A;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(27, 67, 50, 0.1);
+        }
+
+        .nav-active {
+            color: #1B4332;
+            border-bottom: 3px solid #1B4332;
+            font-weight: 700;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+            transition: transform 0.2s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+        }
+
+        .pass-card {
+            background: linear-gradient(145deg, #1B4332, #081C15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .external-link-banner {
+            background: linear-gradient(90deg, #1B4332, #D4AF37);
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+<!-- Application Structure Plan:
+     1. Navigation simplifiée : Suppression du tableau de bord pour un accès direct aux catalogues d'offres.
+     2. CTA Externe : Intégration d'un lien prioritaire vers le site officiel https://lahouch.github.io/partaj-plus/ dans l'en-tête et l'accueil.
+     3. Hub de Contenu : Sections thématiques (Flash, National, Local) pour faciliter la recherche d'avantages en situation de mobilité.
+     4. Pass Digital Persistant : Conservation de l'outil d'identification pour usage immédiat en magasin.
+     5. UX Responsive : Interface optimisée pour smartphone, évitant tout défilement horizontal.
+-->
+
+<!-- Visualization & Content Choices:
+     - Interactive Deal Cards (JS Render): Affichage dynamique des offres flash pour un catalogue vivant.
+     - Category Filters (JS logic): Filtrage du socle national pour éviter la surcharge cognitive.
+     - Local Commune Selector (Dropdown + JS): Gestion des commerces de proximité par commune bruxelloise.
+     - Modal Pass (CSS/Tailwind): Simulation de carte de membre premium.
+     - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+-->
+
+<!-- Banner Promotionnelle / Lien Site -->
+<div class="external-link-banner text-white text-[10px] md:text-xs font-bold py-2 px-4 text-center">
+    <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="hover:underline flex items-center justify-center space-x-2">
+        <span>🚀 DÉCOUVREZ NOTRE PLATEFORME OFFICIELLE</span>
+        <span class="bg-white/20 px-2 py-0.5 rounded-full">CLIQUEZ ICI</span>
+    </a>
+</div>
+
+<!-- Sticky Header -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-[#1B4332] rounded-lg flex items-center justify-center text-white font-bold text-xl">P+</div>
+            <h1 class="text-xl font-extrabold tracking-tight">PARTAJ <span class="text-[#D4AF37]">+</span></h1>
+        </div>
+        <div class="flex items-center space-x-3">
+            <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="hidden md:block text-xs font-bold text-gray-500 hover:text-[#1B4332] transition">SITE OFFICIEL</a>
+            <button onclick="togglePass()" class="btn-gradient text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg flex items-center space-x-2">
+                <span>📱</span> <span>PASS</span>
+            </button>
+        </div>
+    </div>
+    <nav class="max-w-6xl mx-auto px-4 flex space-x-8 overflow-x-auto no-scrollbar text-sm font-medium text-gray-400">
+        <button onclick="switchTab('accueil')" id="tab-accueil" class="nav-active pb-3 whitespace-nowrap">Accueil</button>
+        <button onclick="switchTab('flash')" id="tab-flash" class="pb-3 whitespace-nowrap">Bons Plans Flash</button>
+        <button onclick="switchTab('national')" id="tab-national" class="pb-3 whitespace-nowrap">Socle National</button>
+        <button onclick="switchTab('local')" id="tab-local" class="pb-3 whitespace-nowrap">Réseau Local</button>
+        <button onclick="switchTab('faq')" id="tab-faq" class="pb-3 whitespace-nowrap">Aide</button>
+    </nav>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8 pb-24">
+
+    <!-- TAB: ACCUEIL -->
+    <section id="section-accueil" class="space-y-8 animate-in fade-in duration-500">
+        <div class="glass-card rounded-[2rem] p-8 md:p-16 text-center space-y-6">
+            <div class="inline-block px-4 py-1.5 bg-[#1B4332]/5 text-[#1B4332] rounded-full text-xs font-bold tracking-widest uppercase mb-2">
+                Bienvenue dans votre Club Privilège
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Augmentez votre pouvoir d'achat avec <span class="text-[#1B4332]">PARTAJ +</span></h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Votre plateforme d'avantages exclusivement dédiée aux PME bruxelloises. Retrouvez ici vos réductions permanentes et vos bons plans de quartier.</p>
+            
+            <div class="pt-6 flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="w-full md:w-auto bg-[#1B4332] text-white px-8 py-4 rounded-2xl font-bold shadow-xl hover:bg-[#2D6A4F] transition-all flex items-center justify-center space-x-3">
+                    <span>🌐</span>
+                    <span>Visiter notre site officiel</span>
+                </a>
+                <button onclick="switchTab('flash')" class="w-full md:w-auto bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all">
+                    Explorer les offres
+                </button>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm text-center">
+                <div class="text-3xl mb-3">🔥</div>
+                <h3 class="font-bold text-gray-900 mb-1">Ventes Flash</h3>
+                <p class="text-xs text-gray-500">Des prix cassés chaque semaine sur le web.</p>
+            </div>
+            <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm text-center">
+                <div class="text-3xl mb-3">🇧🇪</div>
+                <h3 class="font-bold text-gray-900 mb-1">Socle National</h3>
+                <p class="text-xs text-gray-500">Cinéma, parcs et voyages toute l'année.</p>
+            </div>
+            <div class="bg-white border border-gray-100 p-8 rounded-3xl shadow-sm text-center">
+                <div class="text-3xl mb-3">📍</div>
+                <h3 class="font-bold text-gray-900 mb-1">Local</h3>
+                <p class="text-xs text-gray-500">Vos commerçants de quartier à Bruxelles.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB: FLASH DEALS -->
+    <section id="section-flash" class="hidden space-y-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-900">🔥 Ventes Flash</h2>
+                <p class="text-gray-500">Opportunités temporaires mises à jour chaque lundi.</p>
+            </div>
+            <div class="flex items-center space-x-2 text-sm font-bold text-red-600 bg-red-50 px-4 py-2 rounded-full">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+                <span>STOCK LIMITÉ</span>
+            </div>
+        </div>
+        <div id="flash-container" class="grid md:grid-cols-3 gap-8">
+            <!-- Dynamic Flash Content -->
+        </div>
+    </section>
+
+    <!-- TAB: NATIONAL -->
+    <section id="section-national" class="hidden space-y-8">
+        <div class="bg-stone-100 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-1">
+                <h2 class="text-2xl font-bold mb-3">Le Socle National</h2>
+                <p class="text-gray-600">Vos avantages permanents valables dans toute la Belgique pour le cinéma, les parcs et vos voyages.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterNational('all')" class="cat-filter active px-5 py-2 rounded-full text-xs font-bold border border-gray-200 bg-white hover:bg-gray-50 transition" id="cat-all">TOUS</button>
+                <button onclick="filterNational('cinema')" class="cat-filter px-5 py-2 rounded-full text-xs font-bold border border-gray-200 bg-white hover:bg-gray-50 transition">🎬 CINÉ</button>
+                <button onclick="filterNational('parcs')" class="cat-filter px-5 py-2 rounded-full text-xs font-bold border border-gray-200 bg-white hover:bg-gray-50 transition">🎢 PARCS</button>
+                <button onclick="filterNational('voyage')" class="cat-filter px-5 py-2 rounded-full text-xs font-bold border border-gray-200 bg-white hover:bg-gray-50 transition">✈️ VOYAGES</button>
+            </div>
+        </div>
+        <div id="national-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic National Content -->
+        </div>
+    </section>
+
+    <!-- TAB: LOCAL -->
+    <section id="section-local" class="hidden space-y-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <div>
+                <h2 class="text-2xl font-bold">📍 Réseau de Proximité</h2>
+                <p class="text-gray-500 text-sm">Réductions exclusives chez vos commerçants de quartier.</p>
+            </div>
+            <div class="w-full md:w-72">
+                <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 ml-1">Sélectionnez votre commune</label>
+                <select id="commune-select" onchange="updateLocal(this.value)" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-[#1B4332] outline-none">
+                    <option value="anderlecht">Anderlecht (1070)</option>
+                    <option value="evere">Evere (1140)</option>
+                    <option value="ixelles">Ixelles (1050)</option>
+                </select>
+            </div>
+        </div>
+        <div id="local-container" class="grid md:grid-cols-2 gap-6">
+            <!-- Dynamic Local Content -->
+        </div>
+    </section>
+
+    <!-- TAB: FAQ -->
+    <section id="section-faq" class="hidden max-w-3xl mx-auto space-y-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Questions Fréquentes</h2>
+        <div id="faq-container" class="space-y-4">
+            <!-- Dynamic FAQ -->
+        </div>
+    </section>
+
+</main>
+
+<!-- PASS DIGITAL MODAL -->
+<div id="pass-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="pass-card w-full max-w-sm rounded-[3rem] p-10 text-white relative animate-in zoom-in duration-300">
+        <button onclick="togglePass()" class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition">&times;</button>
+        
+        <div class="text-center space-y-8 py-4">
+            <div class="flex justify-center">
+                <div class="w-20 h-20 bg-gradient-to-tr from-[#D4AF37] to-[#F3E5AB] rounded-full flex items-center justify-center shadow-xl">
+                    <span class="text-3xl">🛡️</span>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="text-2xl font-black tracking-widest uppercase">PARTAJ <span class="text-[#D4AF37]">+</span></h3>
+                <p class="text-[#D4AF37] text-xs font-bold tracking-[0.2em] mt-2">PASS PRIVILÈGE PME</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 shadow-2xl text-gray-800">
+                <div class="aspect-square border-4 border-dashed border-gray-100 rounded-2xl flex flex-col items-center justify-center text-gray-300">
+                    <span class="text-5xl mb-4 opacity-20">📱</span>
+                    <p class="text-[10px] font-black text-gray-400">QR CODE ACTIF</p>
+                </div>
+                <p class="mt-4 text-[10px] font-bold text-gray-400">Présenter ce pass à la caisse</p>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-lg font-bold">Collaborateur PME</p>
+                <p class="text-[10px] text-white/40 uppercase tracking-widest">Membre : PRTJ-2026-BRU</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Mobile Sticky -->
+<footer class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-t border-gray-100 py-4 px-4 z-40 md:hidden">
+    <div class="flex justify-around items-center">
+        <button onclick="switchTab('accueil')" class="flex flex-col items-center"><span class="text-xl">🏠</span><span class="text-[10px]">Accueil</span></button>
+        <button onclick="switchTab('flash')" class="flex flex-col items-center"><span class="text-xl">🔥</span><span class="text-[10px]">Flash</span></button>
+        <button onclick="switchTab('local')" class="flex flex-col items-center"><span class="text-xl">📍</span><span class="text-[10px]">Local</span></button>
+        <button onclick="togglePass()" class="flex flex-col items-center bg-[#1B4332] text-white p-3 rounded-full -mt-10 border-4 border-[#FAF9F6] shadow-xl"><span class="text-xl">📱</span></button>
+    </div>
+</footer>
+
+<script>
+    // --- DATA ---
+    const flashOffers = [
+        { title: "Philips Airfryer XXL", cat: "Cuisine", old: 249, new: 179, platform: "Amazon.fr", emoji: "🍳" },
+        { title: "Machine Senseo Original", cat: "Petit-Dèj", old: 79, new: 59, platform: "Bol.com", emoji: "☕" },
+        { title: "Sony WH-1000XM4", cat: "Audio", old: 329, new: 229, platform: "Amazon.fr", emoji: "🎧" }
+    ];
+
+    const nationalOffers = [
+        { id: 1, type: "cinema", partner: "Kinepolis", benefit: "Ticket à 11,20€", info: "Achetez en pack de 5/10 en ligne.", icon: "🎬" },
+        { id: 2, type: "cinema", partner: "Pathé Belgique", benefit: "-20% sur vos places", info: "Réservation par lot via l'App.", icon: "🎟️" },
+        { id: 3, type: "parcs", partner: "Walibi Belgium", benefit: "-20% sur l'entrée", info: "Tarif 'Early Bird' 5 jours avant.", icon: "🎢" },
+        { id: 4, type: "parcs", partner: "Pairi Daiza", benefit: "-10% Abonnements", info: "Présentez le Pass aux caisses.", icon: "🐼" },
+        { id: 5, type: "voyage", partner: "Booking.com", benefit: "Statut Genius", info: "-10% à -20% sur vos hôtels.", icon: "🏨" },
+        { id: 6, type: "voyage", partner: "Center Parcs", benefit: "Jusqu'à -25%", info: "Lien dédié CE (hors vacances).", icon: "🏡" }
+    ];
+
+    const localNetwork = {
+        anderlecht: [
+            { name: "Le Burger du Coin", cat: "Resto", deal: "-15% sur l'addition", code: "ANDERLECHT-PROMO", icon: "🍔" },
+            { name: "Laser Game Dynamic", cat: "Loisirs", deal: "Soft offert / session", code: "PASS DIGITAL", icon: "🎯" },
+            { name: "Gym Fit Club", cat: "Sport", deal: "Inscrip. offerte (-50€)", code: "CORPO-PARTAJ", icon: "🏋️" }
+        ],
+        evere: [
+            { name: "Pizzeria Da Luigi", cat: "Resto", deal: "Dessert offert le midi", code: "SUR PASS", icon: "🍕" },
+            { name: "Evere Padel Club", cat: "Sport", deal: "-10% sur location", code: "AVANT 17H", icon: "🎾" }
+        ],
+        ixelles: [
+            { name: "The Daily Grind", cat: "Café", deal: "-10% Spécialité", code: "PRÉSENTATION PASS", icon: "☕" },
+            { name: "Librairie Flagey", cat: "Culture", deal: "-5% sur les livres", code: "HORS PROMO", icon: "📚" }
+        ]
+    };
+
+    const faqItems = [
+        { q: "Comment utiliser mon Pass ?", a: "Ouvrez le Pass Digital sur votre smartphone et montrez-le au commerçant lors du paiement pour les offres locales." },
+        { q: "Puis-je suggérer un nouveau partenaire ?", a: "Absolument ! Contactez-nous pour suggérer vos commerces favoris à Bruxelles." },
+        { q: "Où trouver le site officiel ?", a: "Vous pouvez cliquer sur le bouton 'Visiter notre site officiel' dans l'onglet Accueil ou via la bannière supérieure." }
+    ];
+
+    // --- LOGIC ---
+    function switchTab(tabId) {
+        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(`section-${tabId}`).classList.remove('hidden');
+        
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
+        document.getElementById(`tab-${tabId}`).classList.add('nav-active');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function togglePass() {
+        const modal = document.getElementById('pass-modal');
+        modal.classList.toggle('hidden');
+    }
+
+    function renderFlash() {
+        const container = document.getElementById('flash-container');
+        container.innerHTML = flashOffers.map(o => `
+            <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all">
+                <div class="text-4xl mb-4">${o.emoji}</div>
+                <p class="text-[10px] font-black text-[#1B4332] uppercase tracking-widest mb-1">${o.cat}</p>
+                <h3 class="font-bold text-gray-900 mb-2">${o.title}</h3>
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="text-sm text-gray-300 line-through">${o.old}€</span>
+                    <span class="text-2xl font-black text-gray-900">${o.new}€</span>
+                </div>
+                <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="block text-center bg-gray-50 py-3 rounded-xl text-xs font-bold text-gray-500 hover:bg-[#1B4332] hover:text-white transition">VOIR SUR ${o.platform}</a>
+            </div>
+        `).join('');
+    }
+
+    function filterNational(type) {
+        const container = document.getElementById('national-container');
+        const filtered = type === 'all' ? nationalOffers : nationalOffers.filter(o => o.type === type);
+        
+        container.innerHTML = filtered.map(o => `
+            <div class="bg-white p-6 rounded-2xl border border-gray-50 flex items-start space-x-4 shadow-sm">
+                <div class="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">${o.icon}</div>
+                <div>
+                    <h3 class="font-bold text-gray-900">${o.partner}</h3>
+                    <p class="text-[#1B4332] font-black text-sm">${o.benefit}</p>
+                    <p class="text-[10px] text-gray-400 mt-1">${o.info}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateLocal(commune) {
+        const container = document.getElementById('local-container');
+        const list = localNetwork[commune];
+        
+        container.innerHTML = list.map(l => `
+            <div class="flex items-center justify-between p-5 bg-white rounded-3xl border border-gray-100 group hover:border-[#1B4332] transition">
+                <div class="flex items-center space-x-4">
+                    <span class="text-3xl grayscale group-hover:grayscale-0 transition">${l.icon}</span>
+                    <div>
+                        <h4 class="font-bold text-gray-900">${l.name}</h4>
+                        <p class="text-[#1B4332] text-xs font-bold">${l.deal}</p>
+                    </div>
+                </div>
+                <div class="text-[9px] font-mono bg-gray-50 border border-gray-100 px-2 py-1 rounded">
+                    ${l.code}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderFAQ() {
+        const container = document.getElementById('faq-container');
+        container.innerHTML = faqItems.map(f => `
+            <details class="bg-white rounded-2xl border border-gray-100 p-5 group cursor-pointer">
+                <summary class="font-bold text-gray-900 flex justify-between items-center list-none">
+                    ${f.q}
+                    <span class="text-gray-300 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <p class="mt-4 text-sm text-gray-600 leading-relaxed">${f.a}</p>
+            </details>
+        `).join('');
+    }
+
+    // --- INIT ---
+    window.onload = () => {
+        renderFlash();
+        filterNational('all');
+        updateLocal('anderlecht');
+        renderFAQ();
+    };
+</script>
+
+</body>
+</html>
