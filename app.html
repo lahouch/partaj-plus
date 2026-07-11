@@ -3,194 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARTAJ + — Votre Pass Privilège PME</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chosen Palette: Premium Harmony
-         Background: #FAF9F6 (Sérénité)
-         Primary: #1B4332 (Vert Forêt - Confiance)
-         Secondary: #D4AF37 (Or - Privilège)
-    -->
-    <!-- Application Structure Plan:
-         1. Verrouillage (Gate) : L'utilisateur doit entrer un code entreprise pour accéder au contenu.
-         2. Persistance : Une fois le code entré, il est stocké dans le navigateur (localStorage).
-         3. Navigation : Onglets fluides pour explorer les offres Flash, Nationales et Locales.
-         4. Pass Digital : Une modal "Gold & Dark" servant de preuve visuelle pour les commerçants.
-         5. Hub Externe : Lien vers le site officiel pour les infos administratives.
-    -->
+    <title>Partaj+ — Votre Club Privilège PME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FAF9F6; color: #1A1A1A; }
-        .nav-active { color: #1B4332; border-bottom: 3px solid #1B4332; font-weight: 800; }
-        .btn-premium { background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%); transition: all 0.3s ease; }
-        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px #1B4332; }
-        .pass-card { background: linear-gradient(145deg, #1B4332, #081C15); border: 1px solid rgba(212, 175, 55, 0.3); }
-        .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --primary-light: #FF8F66;
+            --secondary: #004E89;
+            --accent: #FFD166;
+            --dark: #1A1A2E;
+            --gray-700: #555570;
+            --gray-500: #8888A0;
+            --gray-300: #C4C4D4;
+            --gray-100: #F0F0F5;
+            --bg: #FAFAFA;
+            --font: 'Inter', -apple-system, sans-serif;
+            --radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font); background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 12px 28px; border-radius: var(--radius); font-weight: 600;
+            font-size: 0.9rem; border: none; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        .nav-active { color: var(--primary) !important; border-bottom: 3px solid var(--primary); font-weight: 700; }
+
+        /* AUTH GATE */
+        #auth-gate {
+            position: fixed; inset: 0; z-index: 200;
+            background: linear-gradient(135deg, #FF6B35 0%, #004E89 100%);
+            display: flex; align-items: center; justify-content: center; padding: 24px;
+            transition: opacity 0.5s;
+        }
+        .auth-card {
+            width: 100%; max-width: 400px; background: white; border-radius: 24px;
+            padding: 48px 32px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .auth-icon {
+            width: 64px; height: 64px; background: var(--primary); border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            margin: 0 auto 24px; box-shadow: 0 8px 24px rgba(255,107,53,0.3);
+        }
+        .auth-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .auth-card h2 span { color: var(--primary); }
+        .auth-card p { color: var(--gray-500); font-size: 0.9rem; margin-bottom: 32px; }
+        .auth-input {
+            width: 100%; padding: 16px; border: 2px solid var(--gray-100); border-radius: 16px;
+            text-align: center; font-weight: 700; font-size: 1rem; letter-spacing: 3px;
+            font-family: var(--font); outline: none; transition: border-color 0.3s;
+        }
+        .auth-input:focus { border-color: var(--primary); }
+        .auth-btn {
+            width: 100%; padding: 16px; background: var(--primary); color: white; border: none;
+            border-radius: 16px; font-weight: 700; font-size: 1rem; cursor: pointer;
+            font-family: var(--font); transition: all 0.3s; margin-top: 16px;
+        }
+        .auth-btn:hover { background: var(--primary-dark); }
+        .auth-error { color: #EF476F; font-size: 0.85rem; font-weight: 600; margin-top: 16px; display: none; }
+        .auth-error.show { display: block; }
+
+        /* HEADER */
+        header {
+            position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-100);
+        }
+        .header-top {
+            max-width: 1100px; margin: 0 auto; padding: 0 24px; height: 72px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-logo { display: flex; align-items: center; gap: 10px; }
+        .header-logo .logo-icon {
+            width: 40px; height: 40px; background: var(--primary); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 1.1rem;
+        }
+        .header-logo h1 { font-size: 1.25rem; font-weight: 800; }
+        .header-logo h1 span { color: var(--primary); }
+        .header-nav { display: flex; gap: 24px; overflow-x: auto; padding: 0 24px 12px; max-width: 1100px; margin: 0 auto; }
+        .header-nav button {
+            background: none; border: none; font-family: var(--font); font-size: 0.9rem;
+            color: var(--gray-500); cursor: pointer; padding-bottom: 12px; white-space: nowrap;
+            transition: color 0.3s;
+        }
+
+        /* MAIN */
+        main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 120px; }
+
+        /* ACCUEIL */
+        .hero-card {
+            background: white; border-radius: 24px; padding: 64px 32px; text-align: center;
+            box-shadow: var(--shadow-sm); position: relative; overflow: hidden; margin-bottom: 32px;
+        }
+        .hero-card::before {
+            content: ''; position: absolute; top: -60px; right: -60px;
+            width: 200px; height: 200px; background: rgba(255,107,53,0.05); border-radius: 50%;
+        }
+        .hero-card h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+        .hero-card h2 span { color: var(--primary); }
+        .hero-card p { color: var(--gray-500); font-size: 1.05rem; max-width: 480px; margin: 0 auto 32px; }
+        .hero-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 600px; margin: 0 auto; }
+        .hero-cat {
+            padding: 24px 16px; background: var(--gray-100); border-radius: 16px;
+            text-align: center; transition: all 0.3s; cursor: default;
+        }
+        .hero-cat:hover { background: white; box-shadow: var(--shadow-sm); }
+        .hero-cat .icon { font-size: 2rem; margin-bottom: 8px; }
+        .hero-cat .label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stat-card {
+            background: white; border-radius: 16px; padding: 24px; text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-card .num { font-size: 2rem; font-weight: 800; color: var(--primary); }
+        .stat-card .label { font-size: 0.8rem; color: var(--gray-500); margin-top: 4px; }
+
+        /* SECTION HEADERS */
+        .section-header { margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .section-header h2 { font-size: 1.5rem; font-weight: 800; }
+        .section-badge {
+            font-size: 0.7rem; font-weight: 700; background: rgba(255,107,53,0.1); color: var(--primary);
+            padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* FLASH CARDS */
+        .flash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .flash-card {
+            background: white; border-radius: 20px; padding: 28px; box-shadow: var(--shadow-sm);
+            transition: all 0.3s; border: 1px solid transparent;
+        }
+        .flash-card:hover { box-shadow: var(--shadow-md); border-color: var(--primary-light); transform: translateY(-2px); }
+        .flash-card .emoji { font-size: 2.2rem; margin-bottom: 12px; }
+        .flash-card .cat { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 4px; }
+        .flash-card .title { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+        .flash-card .prices { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .flash-card .old { font-size: 0.9rem; color: var(--gray-300); text-decoration: line-through; }
+        .flash-card .new { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .flash-card .shop-btn {
+            display: block; text-align: center; padding: 10px; border-radius: 10px;
+            background: var(--gray-100); font-size: 0.75rem; font-weight: 700; color: var(--gray-700);
+            transition: all 0.3s;
+        }
+        .flash-card .shop-btn:hover { background: var(--primary); color: white; }
+
+        /* NATIONAL CARDS */
+        .nat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .nat-card {
+            background: white; border-radius: 16px; padding: 20px; display: flex;
+            align-items: center; gap: 16px; box-shadow: var(--shadow-sm); transition: all 0.3s;
+        }
+        .nat-card:hover { box-shadow: var(--shadow-md); }
+        .nat-icon { width: 48px; height: 48px; background: var(--gray-100); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+        .nat-card .partner { font-weight: 700; font-size: 0.9rem; }
+        .nat-card .deal { font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-top: 2px; }
+
+        /* LOCAL CARDS */
+        .local-header {
+            background: white; border-radius: 20px; padding: 24px; display: flex;
+            align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); margin-bottom: 16px;
+        }
+        .local-header h2 { font-size: 1.3rem; font-weight: 800; }
+        .local-header p { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
+        .local-select {
+            padding: 12px 20px; border: 2px solid var(--gray-100); border-radius: 12px;
+            font-family: var(--font); font-weight: 600; font-size: 0.9rem; outline: none;
+            background: var(--gray-100); cursor: pointer;
+        }
+        .local-select:focus { border-color: var(--primary); }
+        .local-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .local-card {
+            background: white; border-radius: 16px; padding: 20px; display: flex;
+            align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm);
+            border: 1px solid transparent; transition: all 0.3s;
+        }
+        .local-card:hover { border-color: var(--primary); }
+        .local-left { display: flex; align-items: center; gap: 14px; }
+        .local-emoji { font-size: 2rem; }
+        .local-card .name { font-weight: 700; font-size: 0.9rem; }
+        .local-card .deal { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-top: 2px; }
+        .local-badge { font-size: 0.6rem; font-weight: 700; background: rgba(255,107,53,0.1); color: var(--primary); padding: 4px 10px; border-radius: 50px; text-transform: uppercase; }
+
+        /* PASS MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 100; display: none;
+            align-items: center; justify-content: center; padding: 16px;
+            background: rgba(26,26,46,0.9); backdrop-filter: blur(8px);
+        }
+        .modal-overlay.show { display: flex; }
+        .pass-card {
+            width: 100%; max-width: 340px; border-radius: 28px; padding: 32px;
+            color: white; position: relative; overflow: hidden;
+            background: linear-gradient(145deg, var(--dark), #0a0a1a);
+        }
+        .pass-close {
+            position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+            border-radius: 50%; background: rgba(255,255,255,0.1); border: none;
+            color: white; font-size: 1.2rem; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: background 0.3s;
+        }
+        .pass-close:hover { background: rgba(255,255,255,0.2); }
+        .pass-logo {
+            width: 72px; height: 72px; background: var(--primary); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem;
+            margin: 16px auto 0; box-shadow: 0 8px 24px rgba(255,107,53,0.4);
+        }
+        .pass-title { text-align: center; font-size: 1.8rem; font-weight: 800; margin-top: 20px; letter-spacing: 2px; }
+        .pass-title span { color: var(--primary); }
+        .pass-sub { text-align: center; font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; color: var(--primary); text-transform: uppercase; margin-top: 4px; }
+        .pass-qr {
+            background: white; border-radius: 20px; padding: 24px; margin-top: 24px;
+            text-align: center; color: var(--dark);
+        }
+        .pass-qr-box {
+            width: 140px; height: 140px; margin: 0 auto; border: 4px dashed var(--gray-100);
+            border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; opacity: 0.15;
+        }
+        .pass-qr-label { font-size: 0.6rem; font-weight: 700; color: var(--gray-300); margin-top: 12px; letter-spacing: 2px; text-transform: uppercase; }
+        .pass-member { margin-top: 16px; text-align: left; }
+        .pass-member .role { font-size: 0.65rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 2px; }
+        .pass-member .name { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 2px; display: flex; align-items: center; justify-content: space-between; }
+        .pass-member .year { font-size: 0.65rem; background: rgba(255,107,53,0.1); color: var(--primary); padding: 3px 10px; border-radius: 8px; font-weight: 700; }
+        .pass-footer { text-align: center; margin-top: 24px; font-size: 0.6rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+
+        /* FOOTER MOBILE */
+        .mobile-footer {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+            border-top: 1px solid var(--gray-100); padding: 12px 16px 16px;
+            display: none;
+        }
+        .mobile-footer-inner { display: flex; justify-content: space-around; align-items: center; }
+        .mobile-footer button, .mobile-footer a {
+            display: flex; flex-direction: column; align-items: center; background: none;
+            border: none; cursor: pointer; color: var(--gray-500); transition: color 0.3s;
+        }
+        .mobile-footer button:hover, .mobile-footer a:hover { color: var(--primary); }
+        .mobile-footer .icon { font-size: 1.3rem; }
+        .mobile-footer .label { font-size: 0.6rem; font-weight: 600; margin-top: 2px; }
+        .mobile-footer .pass-btn {
+            background: var(--primary); color: white !important; padding: 14px;
+            border-radius: 50%; margin-top: -28px; box-shadow: 0 4px 16px rgba(255,107,53,0.4);
+        }
+        .mobile-footer .pass-btn .icon { font-size: 1.4rem; }
+
+        @media (max-width: 768px) {
+            .hero-cats { grid-template-columns: repeat(2, 1fr); }
+            .flash-grid { grid-template-columns: 1fr; }
+            .nat-grid { grid-template-columns: 1fr; }
+            .local-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr; }
+            .mobile-footer { display: block; }
+            .local-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+            .local-select { width: 100%; }
+        }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden">
+<body>
 
-<!-- SECTION DE VERROUILLAGE (LOGIN) -->
-<div id="auth-gate" class="fixed inset-0 z-[200] bg-[#1B4332] flex items-center justify-center p-6 transition-opacity duration-500">
-    <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl text-center">
-        <div class="w-16 h-16 bg-[#D4AF37] rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 shadow-lg">🛡️</div>
-        <h2 class="text-2xl font-extrabold mb-2">Accès PARTAJ <span class="text-[#D4AF37]">+</span></h2>
-        <p class="text-gray-500 text-sm mb-8">Veuillez entrer le code d'accès fourni par votre entreprise pour débloquer vos privilèges.</p>
-        
-        <input type="text" id="access-code-input" placeholder="CODE ENTREPRISE" class="w-full bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl text-center font-bold tracking-widest outline-none focus:border-[#1B4332] transition mb-4">
-        <button onclick="checkAccess()" class="w-full btn-premium text-white p-4 rounded-2xl font-bold shadow-lg">DÉBLOQUER MON PASS</button>
-        <p id="auth-error" class="text-red-500 text-xs font-bold mt-4 hidden">Code invalide. Contactez votre responsable RH.</p>
+<!-- AUTH GATE -->
+<div id="auth-gate">
+    <div class="auth-card">
+        <div class="auth-icon">🛡️</div>
+        <h2>Accès Partaj <span>+</span></h2>
+        <p>Entrez le code fourni par votre entreprise pour débloquer vos avantages.</p>
+        <input type="text" id="access-code-input" placeholder="CODE ENTREPRISE" class="auth-input">
+        <button onclick="checkAccess()" class="auth-btn">DÉBLOQUER MON PASS</button>
+        <p id="auth-error" class="auth-error">Code invalide. Contactez votre responsable RH.</p>
     </div>
 </div>
 
-<!-- CONTENU DE L'APPLICATION (MASQUÉ PAR DÉFAUT) -->
-<div id="app-content" class="opacity-0 transition-opacity duration-700">
-    
-    <!-- Banner Site Officiel -->
-    <div class="bg-gradient-to-r from-[#1B4332] to-[#D4AF37] text-white text-[10px] md:text-xs font-bold py-2.5 px-4 text-center">
-        <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="hover:underline flex items-center justify-center space-x-2">
-            <span>🌐 VISITEZ NOTRE PLATEFORME OFFICIELLE : LAHOUCH.GITHUB.IO/PARTAJ-PLUS</span>
-            <span class="bg-white/20 px-2 py-0.5 rounded-full">SITE WEB</span>
-        </a>
-    </div>
+<!-- APP CONTENT -->
+<div id="app-content" style="opacity:0; transition: opacity 0.5s;">
 
-    <header class="sticky top-0 z-50 glass-effect border-b border-gray-100">
-        <div class="max-w-5xl mx-auto px-4 h-20 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-[#1B4332] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">P+</div>
-                <h1 class="text-xl font-extrabold tracking-tight">PARTAJ <span class="text-[#D4AF37]">+</span></h1>
-            </div>
-            <button onclick="togglePass()" class="btn-premium text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg flex items-center space-x-2">
-                <span>📱</span> <span>MON PASS</span>
+    <header>
+        <div class="header-top">
+            <a href="index.html" class="header-logo">
+                <div class="logo-icon">P+</div>
+                <h1>Partaj<span>+</span></h1>
+            </a>
+            <button onclick="togglePass()" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">
+                📱 Mon Pass
             </button>
         </div>
-        <nav class="max-w-5xl mx-auto px-4 flex space-x-8 overflow-x-auto no-scrollbar text-sm font-medium text-gray-400">
-            <button onclick="switchTab('accueil')" id="tab-accueil" class="nav-active pb-3 whitespace-nowrap">Accueil</button>
-            <button onclick="switchTab('flash')" id="tab-flash" class="pb-3 whitespace-nowrap">Ventes Flash</button>
-            <button onclick="switchTab('national')" id="tab-national" class="pb-3 whitespace-nowrap">Socle National</button>
-            <button onclick="switchTab('local')" id="tab-local" class="pb-3 whitespace-nowrap">Réseau Local</button>
+        <nav class="header-nav">
+            <button onclick="switchTab('accueil')" id="tab-accueil" class="nav-active">Accueil</button>
+            <button onclick="switchTab('flash')" id="tab-flash">Ventes Flash</button>
+            <button onclick="switchTab('national')" id="tab-national">Socle National</button>
+            <button onclick="switchTab('local')" id="tab-local">Réseau Local</button>
         </nav>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-8 pb-24">
-
+    <main>
         <!-- ACCUEIL -->
-        <section id="section-accueil" class="space-y-8 animate-in fade-in duration-500">
-            <div class="bg-white border border-gray-100 rounded-[3rem] p-10 md:p-20 text-center shadow-sm relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#D4AF37]/5 rounded-full"></div>
-                <h2 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-6">Plus de pouvoir d'achat, <br><span class="text-[#1B4332]">moins d'efforts.</span></h2>
-                <p class="text-gray-400 text-lg max-w-xl mx-auto mb-10">Bienvenue dans votre Club Privilège PME. Utilisez vos avantages digitaux ou présentez votre Pass chez nos partenaires à Bruxelles.</p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="p-6 bg-gray-50 rounded-[2rem] hover:bg-white hover:shadow-md transition cursor-default">
-                        <div class="text-3xl mb-2">🍿</div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-[#1B4332]">Ciné</div>
-                    </div>
-                    <div class="p-6 bg-gray-50 rounded-[2rem] hover:bg-white hover:shadow-md transition cursor-default">
-                        <div class="text-3xl mb-2">🎢</div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-[#1B4332]">Parcs</div>
-                    </div>
-                    <div class="p-6 bg-gray-50 rounded-[2rem] hover:bg-white hover:shadow-md transition cursor-default">
-                        <div class="text-3xl mb-2">🥘</div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-[#1B4332]">Resto</div>
-                    </div>
-                    <div class="p-6 bg-gray-50 rounded-[2rem] hover:bg-white hover:shadow-md transition cursor-default">
-                        <div class="text-3xl mb-2">🛒</div>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-[#1B4332]">Shopping</div>
-                    </div>
+        <section id="section-accueil">
+            <div class="hero-card">
+                <h2>Plus de pouvoir d'achat,<br><span>moins d'efforts.</span></h2>
+                <p>Bienvenue dans votre Club Privilège PME. Utilisez vos avantages digitaux ou présentez votre Pass chez nos partenaires.</p>
+                <div class="hero-cats">
+                    <div class="hero-cat"><div class="icon">🍿</div><div class="label">Ciné</div></div>
+                    <div class="hero-cat"><div class="icon">🎢</div><div class="label">Parcs</div></div>
+                    <div class="hero-cat"><div class="icon">🥘</div><div class="label">Resto</div></div>
+                    <div class="hero-cat"><div class="icon">🛒</div><div class="label">Shopping</div></div>
                 </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-card"><div class="num">49€</div><div class="label">À partir de</div></div>
+                <div class="stat-card"><div class="num">100+</div><div class="label">Partenaires</div></div>
+                <div class="stat-card"><div class="num">❤️</div><div class="label">Finance PARTAJOY</div></div>
             </div>
         </section>
 
         <!-- FLASH DEALS -->
-        <section id="section-flash" class="hidden space-y-6">
-            <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-black">🔥 Ventes Flash</h2>
-                <span class="text-[10px] font-bold bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full uppercase">Mis à jour lundi</span>
+        <section id="section-flash" style="display:none;">
+            <div class="section-header">
+                <h2>🔥 Ventes Flash</h2>
+                <span class="section-badge">Mis à jour lundi</span>
             </div>
-            <div id="flash-container" class="grid md:grid-cols-3 gap-6"></div>
+            <div id="flash-container" class="flash-grid"></div>
         </section>
 
         <!-- NATIONAL -->
-        <section id="section-national" class="hidden space-y-6">
-            <h2 class="text-2xl font-black">🇧🇪 Socle National</h2>
-            <div id="national-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <section id="section-national" style="display:none;">
+            <div class="section-header">
+                <h2>🇧🇪 Socle National</h2>
+            </div>
+            <div id="national-container" class="nat-grid"></div>
         </section>
 
         <!-- LOCAL -->
-        <section id="section-local" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-[2.5rem] border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 shadow-sm">
+        <section id="section-local" style="display:none;">
+            <div class="local-header">
                 <div>
-                    <h2 class="text-2xl font-black">📍 Réseau de Proximité</h2>
-                    <p class="text-xs text-gray-400 mt-1">Choisissez votre commune pour voir les offres autour de vous.</p>
+                    <h2>📍 Réseau de Proximité</h2>
+                    <p>Choisissez votre commune pour voir les offres autour de vous.</p>
                 </div>
-                <select onchange="updateLocal(this.value)" class="bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl text-sm font-black outline-none focus:ring-2 focus:ring-[#1B4332] w-full md:w-auto min-w-[200px]">
+                <select onchange="updateLocal(this.value)" class="local-select">
                     <option value="anderlecht">Anderlecht (1070)</option>
                     <option value="evere">Evere (1140)</option>
                     <option value="ixelles">Ixelles (1050)</option>
                 </select>
             </div>
-            <div id="local-container" class="grid md:grid-cols-2 gap-4"></div>
+            <div id="local-container" class="local-grid"></div>
         </section>
-
     </main>
 
-    <!-- LE PASS DIGITAL (MODAL) -->
-    <div id="pass-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
-        <div class="pass-card w-full max-w-sm rounded-[3.5rem] p-8 text-white relative shadow-2xl overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full -mr-16 -mt-16"></div>
-            <button onclick="togglePass()" class="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-2xl">&times;</button>
-            
-            <div class="text-center space-y-8 relative">
-                <div class="pt-4">
-                    <div class="w-20 h-20 bg-[#D4AF37] rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-xl border-4 border-[#1B4332]">🛡️</div>
-                </div>
-                
-                <div>
-                    <h3 class="text-3xl font-black tracking-widest">PARTAJ <span class="text-[#D4AF37]">+</span></h3>
-                    <p class="text-[#D4AF37] text-[10px] font-black tracking-[0.4em] uppercase mt-2">Pass Privilège Officiel</p>
-                </div>
-
-                <div class="bg-white rounded-[2.5rem] p-8 text-gray-900 shadow-2xl relative">
-                    <div class="aspect-square bg-gray-50 rounded-2xl flex flex-col items-center justify-center border-4 border-dashed border-gray-100 mb-6">
-                        <span class="text-6xl opacity-10">📱</span>
-                        <p class="text-[9px] font-black text-gray-200 mt-4 tracking-[0.3em]">VALIDATION VISUELLE</p>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Collaborateur PME</p>
-                        <p class="text-xl font-black text-[#1B4332] flex items-center justify-between">
-                            <span>MEMBRE ACTIF</span>
-                            <span class="text-[10px] bg-[#1B4332]/5 px-2 py-1 rounded-lg">2026</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="pt-4 text-[9px] text-white/40 uppercase tracking-[0.3em] font-black italic">
-                    Valable chez tous les partenaires du réseau
-                </div>
+    <!-- PASS MODAL -->
+    <div id="pass-modal" class="modal-overlay" onclick="if(event.target===this)togglePass()">
+        <div class="pass-card">
+            <button onclick="togglePass()" class="pass-close">&times;</button>
+            <div class="pass-logo">🛡️</div>
+            <div class="pass-title">Partaj<span>+</span></div>
+            <div class="pass-sub">Pass Privilège Officiel</div>
+            <div class="pass-qr">
+                <div class="pass-qr-box">📱</div>
+                <div class="pass-qr-label">QR Code actif</div>
             </div>
+            <div class="pass-member">
+                <div class="role">Collaborateur PME</div>
+                <div class="name"><span>Membre actif</span><span class="year">2026</span></div>
+            </div>
+            <div class="pass-footer">Valable chez tous les partenaires du réseau</div>
         </div>
     </div>
 
-    <!-- FOOTER MOBILE -->
-    <footer class="fixed bottom-0 left-0 right-0 glass-effect border-t border-gray-100 p-4 md:hidden z-40">
-        <div class="flex justify-around items-center">
-            <button onclick="switchTab('accueil')" class="flex flex-col items-center opacity-40 hover:opacity-100 transition"><span class="text-xl">🏠</span><span class="text-[9px] font-bold mt-1 uppercase">Club</span></button>
-            <button onclick="switchTab('local')" class="flex flex-col items-center opacity-40 hover:opacity-100 transition"><span class="text-xl">📍</span><span class="text-[9px] font-bold mt-1 uppercase">Local</span></button>
-            <button onclick="togglePass()" class="flex flex-col items-center btn-premium text-white p-3.5 rounded-full -mt-14 border-[6px] border-[#FAF9F6] shadow-2xl transform active:scale-90 transition"><span class="text-xl">📱</span></button>
-            <button onclick="switchTab('flash')" class="flex flex-col items-center opacity-40 hover:opacity-100 transition"><span class="text-xl">🔥</span><span class="text-[9px] font-bold mt-1 uppercase">Offres</span></button>
-            <a href="https://lahouch.github.io/partaj-plus/" target="_blank" class="flex flex-col items-center opacity-40 hover:opacity-100 transition"><span class="text-xl">🌐</span><span class="text-[9px] font-bold mt-1 uppercase">Infos</span></a>
+    <!-- MOBILE FOOTER -->
+    <footer class="mobile-footer">
+        <div class="mobile-footer-inner">
+            <button onclick="switchTab('accueil')"><span class="icon">🏠</span><span class="label">Club</span></button>
+            <button onclick="switchTab('local')"><span class="icon">📍</span><span class="label">Local</span></button>
+            <button onclick="togglePass()" class="pass-btn"><span class="icon">📱</span></button>
+            <button onclick="switchTab('flash')"><span class="icon">🔥</span><span class="label">Offres</span></button>
+            <a href="index.html"><span class="icon">🌐</span><span class="label">Site</span></a>
         </div>
     </footer>
-
 </div>
 
-<!-- JAVASCRIPT LOGIC (THE "ENGINE") -->
 <script>
-    // Configuration des accès (Ajoutez ici les codes de vos clients PME)
     const validCodes = ["DEMO2026", "PARTAJ26", "PEETERS26", "BRUXELLES"];
 
-    // Base de données simulée
     const flashOffers = [
         { title: "Philips Airfryer XXL", cat: "Cuisine", old: 249, new: 179, shop: "Amazon.fr", icon: "🍳" },
         { title: "Sony WH-1000XM4", cat: "Tech", old: 329, new: 229, shop: "Amazon.fr", icon: "🎧" },
@@ -198,12 +401,12 @@
     ];
 
     const nationalOffers = [
-        { partner: "Kinepolis", deal: "Ticket à 11,20€", type: "Ciné", icon: "🎬" },
-        { partner: "Walibi", deal: "-20% sur l'entrée", type: "Parcs", icon: "🎢" },
-        { partner: "Booking.com", deal: "Statut Genius", type: "Voyage", icon: "🏨" },
-        { partner: "Zalando", deal: "-10% Welcome", type: "Mode", icon: "🛍️" },
-        { partner: "AS Adventure", deal: "-10% Outdoor", type: "Sport", icon: "🥾" },
-        { partner: "Pairi Daiza", deal: "-10% Abo", type: "Loisirs", icon: "🐼" }
+        { partner: "Kinepolis", deal: "Ticket à 11,20€", icon: "🎬" },
+        { partner: "Walibi", deal: "-20% sur l'entrée", icon: "🎢" },
+        { partner: "Booking.com", deal: "Statut Genius", icon: "🏨" },
+        { partner: "Zalando", deal: "-10% Welcome", icon: "🛍️" },
+        { partner: "AS Adventure", deal: "-10% Outdoor", icon: "🥾" },
+        { partner: "Pairi Daiza", deal: "-10% Abo", icon: "🐼" }
     ];
 
     const localData = {
@@ -212,66 +415,58 @@
         ixelles: [{ name: "The Daily Grind", deal: "-10% café", icon: "☕" }, { name: "Librairie Flagey", deal: "-5% livres", icon: "📚" }]
     };
 
-    // Gestion de l'authentification
     function checkAccess() {
         const input = document.getElementById('access-code-input').value.toUpperCase();
         if (validCodes.includes(input)) {
             localStorage.setItem('partaj_plus_auth', 'true');
             unlockApp();
         } else {
-            document.getElementById('auth-error').classList.remove('hidden');
+            document.getElementById('auth-error').classList.add('show');
         }
     }
 
     function unlockApp() {
-        document.getElementById('auth-gate').classList.add('opacity-0');
+        const gate = document.getElementById('auth-gate');
+        gate.style.opacity = '0';
         setTimeout(() => {
-            document.getElementById('auth-gate').classList.add('hidden');
-            document.getElementById('app-content').classList.remove('opacity-0');
+            gate.style.display = 'none';
+            document.getElementById('app-content').style.opacity = '1';
             render();
         }, 500);
     }
 
-    // Gestion de la navigation
     function switchTab(id) {
-        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-        document.getElementById(`section-${id}`).classList.remove('hidden');
+        document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+        document.getElementById('section-' + id).style.display = '';
         document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
-        document.getElementById(`tab-${id}`).classList.add('nav-active');
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        document.getElementById('tab-' + id).classList.add('nav-active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function togglePass() {
-        const modal = document.getElementById('pass-modal');
-        modal.classList.toggle('hidden');
-        if (!modal.classList.contains('hidden')) {
-            modal.querySelector('.pass-card').classList.add('animate-in', 'zoom-in', 'duration-300');
-        }
+        document.getElementById('pass-modal').classList.toggle('show');
     }
 
-    // Rendu dynamique
     function render() {
-        // Ventes Flash
         document.getElementById('flash-container').innerHTML = flashOffers.map(o => `
-            <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
-                <div class="text-4xl mb-4 group-hover:scale-110 transition">${o.icon}</div>
-                <p class="text-[10px] font-black text-[#1B4332] uppercase tracking-[0.2em] mb-1">${o.cat}</p>
-                <h3 class="font-black text-gray-900 text-lg mb-4 leading-tight">${o.title}</h3>
-                <div class="flex items-center space-x-3 mb-6">
-                    <span class="text-sm text-gray-300 line-through">${o.old}€</span>
-                    <span class="text-2xl font-black text-[#1B4332]">${o.new}€</span>
+            <div class="flash-card">
+                <div class="emoji">${o.icon}</div>
+                <div class="cat">${o.cat}</div>
+                <div class="title">${o.title}</div>
+                <div class="prices">
+                    <span class="old">${o.old}€</span>
+                    <span class="new">${o.new}€</span>
                 </div>
-                <a href="#" class="block text-center btn-premium text-white py-3 rounded-xl text-[10px] font-black tracking-widest uppercase">PROFITER SUR ${o.shop}</a>
+                <a href="#" class="shop-btn">PROFITER SUR ${o.shop}</a>
             </div>
         `).join('');
 
-        // Socle National
         document.getElementById('national-container').innerHTML = nationalOffers.map(o => `
-            <div class="bg-white p-5 rounded-3xl border border-gray-50 flex items-center space-x-4 hover:shadow-md transition">
-                <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl">${o.icon}</div>
+            <div class="nat-card">
+                <div class="nat-icon">${o.icon}</div>
                 <div>
-                    <h4 class="text-sm font-extrabold text-gray-900">${o.partner}</h4>
-                    <p class="text-[#D4AF37] text-[11px] font-bold uppercase tracking-tight">${o.deal}</p>
+                    <div class="partner">${o.partner}</div>
+                    <div class="deal">${o.deal}</div>
                 </div>
             </div>
         `).join('');
@@ -281,27 +476,23 @@
 
     function updateLocal(commune) {
         document.getElementById('local-container').innerHTML = localData[commune].map(l => `
-            <div class="bg-white p-6 rounded-[2rem] border border-gray-100 flex items-center justify-between group hover:border-[#1B4332] transition-all">
-                <div class="flex items-center space-x-5">
-                    <span class="text-4xl filter grayscale group-hover:grayscale-0 transition duration-500">${l.icon}</span>
+            <div class="local-card">
+                <div class="local-left">
+                    <span class="local-emoji">${l.icon}</span>
                     <div>
-                        <h4 class="font-black text-gray-900 text-sm tracking-tight">${l.name}</h4>
-                        <p class="text-[#1B4332] text-xs font-extrabold">${l.deal}</p>
+                        <div class="name">${l.name}</div>
+                        <div class="deal">${l.deal}</div>
                     </div>
                 </div>
-                <div class="text-[9px] font-black bg-[#1B4332]/5 text-[#1B4332] px-3 py-1 rounded-full uppercase tracking-widest">PASS ACTIF</div>
+                <span class="local-badge">Pass actif</span>
             </div>
         `).join('');
     }
 
-    // Vérification initiale du verrouillage au chargement
     window.onload = () => {
-        if (localStorage.getItem('partaj_plus_auth') === 'true') {
-            unlockApp();
-        }
+        if (localStorage.getItem('partaj_plus_auth') === 'true') unlockApp();
     };
 </script>
 
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </body>
 </html>
