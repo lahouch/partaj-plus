@@ -1,0 +1,32 @@
+name: Scrape Deals
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Chaque lundi à 6h
+  workflow_dispatch:  # Déclenchement manuel
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper
+        run: python scripts/scraper.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/
+          git diff --staged --quiet || git commit -m "🤖 Mise à jour automatique des offres"
+          git push

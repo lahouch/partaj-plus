@@ -12,7 +12,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #F5F5F5; min-height: 100vh; }
 
-        /* HEADER */
         .catalog-header {
             background: linear-gradient(135deg, #FF6B35 0%, #FF8F66 100%);
             color: white;
@@ -37,7 +36,6 @@
             margin-top: 10px;
         }
 
-        /* BANNIERE IMPACT */
         .impact-bar {
             background: #FFF5F0;
             padding: 12px 16px;
@@ -48,7 +46,6 @@
         }
         .impact-bar strong { color: #FF6B35; }
 
-        /* FILTRES */
         .filters {
             display: flex;
             gap: 8px;
@@ -69,13 +66,8 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .filter-chip.active {
-            background: #FF6B35;
-            color: white;
-            border-color: #FF6B35;
-        }
+        .filter-chip.active { background: #FF6B35; color: white; border-color: #FF6B35; }
 
-        /* SECTION TITRE */
         .section-title {
             padding: 8px 16px 12px;
             font-size: 1rem;
@@ -83,7 +75,6 @@
             color: #1A1A2E;
         }
 
-        /* CARTE OFFRE */
         .offer-list { padding: 0 16px 16px; }
         .offer-card {
             background: white;
@@ -133,7 +124,6 @@
         .badge-flash { background: #FFF0F3; color: #EF476F; }
         .badge-populaire { background: #FFF5E6; color: #FF6B35; }
 
-        /* CODE PROMO */
         .offer-code {
             background: #F5F5F5;
             border-radius: 10px;
@@ -152,7 +142,6 @@
             letter-spacing: 1px;
         }
 
-        /* BOUTON */
         .offer-btn {
             display: block;
             width: 100%;
@@ -167,18 +156,11 @@
             text-decoration: none;
             transition: all 0.2s;
         }
-        .btn-code {
-            background: #FF6B35;
-            color: white;
-        }
+        .btn-code { background: #FF6B35; color: white; }
         .btn-code:active { background: #E55A2B; }
-        .btn-link {
-            background: #004E89;
-            color: white;
-        }
+        .btn-link { background: #004E89; color: white; }
         .btn-link:active { background: #003D6B; }
 
-        /* FOOTER */
         .catalog-footer {
             text-align: center;
             padding: 24px 16px 40px;
@@ -187,23 +169,12 @@
         }
         .catalog-footer a { color: #FF6B35; text-decoration: none; font-weight: 600; }
 
-        /* ANIMATION */
         .offer-card { animation: fadeInUp 0.4s ease forwards; opacity: 0; }
-        .offer-card:nth-child(1) { animation-delay: 0s; }
-        .offer-card:nth-child(2) { animation-delay: 0.05s; }
-        .offer-card:nth-child(3) { animation-delay: 0.1s; }
-        .offer-card:nth-child(4) { animation-delay: 0.15s; }
-        .offer-card:nth-child(5) { animation-delay: 0.2s; }
-        .offer-card:nth-child(6) { animation-delay: 0.25s; }
-        .offer-card:nth-child(7) { animation-delay: 0.3s; }
-        .offer-card:nth-child(8) { animation-delay: 0.35s; }
-
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -220,180 +191,125 @@
             white-space: nowrap;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .loading { text-align: center; padding: 40px; color: #888; }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="catalog-header">
         <div class="catalog-logo">Partaj<span>+</span></div>
         <div class="catalog-commune">📍 Anderlecht</div>
         <div class="catalog-user">👤 Connecté via votre entreprise</div>
     </div>
 
-    <!-- IMPACT BAR -->
     <div class="impact-bar">
         En utilisant ce catalogue, vous <strong>soutenez l'ASBL PARTAJOY</strong> et ses actions sociales ❤️
     </div>
 
-    <!-- FILTRES -->
-    <div class="filters">
+    <div class="filters" id="filters">
         <button class="filter-chip active" data-filter="all">🔥 Tout</button>
         <button class="filter-chip" data-filter="local">🏪 Local</button>
         <button class="filter-chip" data-filter="national">🇧🇪 National</button>
         <button class="filter-chip" data-filter="flash">⚡ Flash</button>
     </div>
 
-    <!-- SECTION: POPULAIRES -->
-    <div class="section-title">🔥 Les plus populaires</div>
+    <div class="section-title" id="sectionTitle">🔥 Les meilleures offres</div>
     <div class="offer-list" id="offerList">
-
-        <!-- Kinepolis -->
-        <div class="offer-card" data-category="national">
-            <span class="offer-badge badge-populaire">Populaire</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🎬</div>
-                <div class="offer-info">
-                    <h4>Kinepolis Movie Card</h4>
-                    <p>-25% sur vos tickets cinéma avec la Movie Card</p>
-                </div>
-            </div>
-            <a href="https://www.kinepolis.be/fr/offres" target="_blank" class="offer-btn btn-link">Accéder à l'offre →</a>
-        </div>
-
-        <!-- Burger Factory -->
-        <div class="offer-card" data-category="local">
-            <span class="offer-badge badge-local">Local</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🍔</div>
-                <div class="offer-info">
-                    <h4>Burger Factory Anderlecht</h4>
-                    <p>1 café offert avec chaque menu acheté</p>
-                </div>
-            </div>
-            <div class="offer-code">
-                <span class="offer-code-label">Votre code :</span>
-                <span class="offer-code-value">ANDERLECHT-PROMO</span>
-            </div>
-            <button class="offer-btn btn-code" onclick="copyCode(this, 'ANDERLECHT-PROMO')">📋 Copier le code</button>
-        </div>
-
-        <!-- Zalando -->
-        <div class="offer-card" data-category="national">
-            <span class="offer-badge badge-national">National</span>
-            <div class="offer-top">
-                <div class="offer-emoji">👕</div>
-                <div class="offer-info">
-                    <h4>Zalando.be</h4>
-                    <p>-10% sur votre première commande via la newsletter</p>
-                </div>
-            </div>
-            <a href="https://www.zalando.be" target="_blank" class="offer-btn btn-link">Activer le code →</a>
-        </div>
-
-        <!-- Walibi -->
-        <div class="offer-card" data-category="flash">
-            <span class="offer-badge badge-flash">🔥 Flash</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🎢</div>
-                <div class="offer-info">
-                    <h4>Walibi Belgium</h4>
-                    <p>-20% sur les entrées en ligne (achat anticipé 7j)</p>
-                </div>
-            </div>
-            <a href="https://www.walibi.be/fr/billets" target="_blank" class="offer-btn btn-link">Réserver →</a>
-        </div>
-
-        <!-- Padel Club -->
-        <div class="offer-card" data-category="local">
-            <span class="offer-badge badge-local">Local</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🏓</div>
-                <div class="offer-info">
-                    <h4>Padel Club Anderlecht</h4>
-                    <p>-20% sur la location de terrain le mercredi</p>
-                </div>
-            </div>
-            <div class="offer-code">
-                <span class="offer-code-label">Votre code :</span>
-                <span class="offer-code-value">PADXL-20</span>
-            </div>
-            <button class="offer-btn btn-code" onclick="copyCode(this, 'PADXL-20')">📋 Copier le code</button>
-        </div>
-
-        <!-- Pizzeria -->
-        <div class="offer-card" data-category="local">
-            <span class="offer-badge badge-local">Local</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🍕</div>
-                <div class="offer-info">
-                    <h4>Pizzeria Chez Marco</h4>
-                    <p>1 pizza achetée, 1 offerte le mardi soir</p>
-                </div>
-            </div>
-            <div class="offer-code">
-                <span class="offer-code-label">Votre code :</span>
-                <span class="offer-code-value">MARCO21</span>
-            </div>
-            <button class="offer-btn btn-code" onclick="copyCode(this, 'MARCO21')">📋 Copier le code</button>
-        </div>
-
-        <!-- Booking -->
-        <div class="offer-card" data-category="national">
-            <span class="offer-badge badge-national">National</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🏨</div>
-                <div class="offer-info">
-                    <h4>Booking.com — Astuce Genius</h4>
-                    <p>Débloquez -10% à -20% sur les hôtels</p>
-                </div>
-            </div>
-            <a href="https://www.booking.com" target="_blank" class="offer-btn btn-link">Voir l'astuce →</a>
-        </div>
-
-        <!-- Amazon -->
-        <div class="offer-card" data-category="flash">
-            <span class="offer-badge badge-flash">🔥 Flash</span>
-            <div class="offer-top">
-                <div class="offer-emoji">🛒</div>
-                <div class="offer-info">
-                    <h4>Amazon — Promo de la semaine</h4>
-                    <p>Jusqu'à -40% sur la high-tech</p>
-                </div>
-            </div>
-            <a href="https://www.amazon.be" target="_blank" class="offer-btn btn-link">Voir les promos →</a>
-        </div>
-
+        <div class="loading">Chargement des offres...</div>
     </div>
 
-    <!-- FOOTER -->
     <div class="catalog-footer">
-        <p>Catalogue offert par <a href="#">Partaj+</a></p>
+        <p>Catalogue offert par <a href="index.html">Partaj+</a></p>
         <p style="margin-top:4px">Une initiative de <strong>PARTAJOY asbl</strong> ❤️</p>
     </div>
 
-    <!-- TOAST -->
     <div class="toast" id="toast">Code copié !</div>
 
     <script>
-        // FILTRES
-        const filterChips = document.querySelectorAll('.filter-chip');
-        const offerCards = document.querySelectorAll('.offer-card');
+        let allDeals = [];
+        let currentFilter = 'all';
 
-        filterChips.forEach(chip => {
-            chip.addEventListener('click', () => {
-                filterChips.forEach(c => c.classList.remove('active'));
-                chip.classList.add('active');
-                const filter = chip.dataset.filter;
-                offerCards.forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeInUp 0.3s ease forwards';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
+        async function loadDeals() {
+            try {
+                const [dealsRes, localRes] = await Promise.all([
+                    fetch('data/deals.json'),
+                    fetch('data/local.json')
+                ]);
+                const dealsData = await dealsRes.json();
+                const localData = await localRes.json();
+
+                allDeals = [
+                    ...dealsData.deals.filter(d => d.validated).map(d => ({...d, sortOrder: d.featured ? 0 : 1})),
+                    ...localData.deals.filter(d => d.validated).map(d => ({...d, source: 'local', sortOrder: d.featured ? 0 : 1}))
+                ];
+
+                allDeals.sort((a, b) => a.sortOrder - b.sortOrder);
+
+                renderDeals();
+            } catch (err) {
+                console.error('Erreur:', err);
+                document.getElementById('offerList').innerHTML = `
+                    <div class="loading">⚠️ Erreur de chargement du catalogue</div>`;
+            }
+        }
+
+        function renderDeals() {
+            const container = document.getElementById('offerList');
+            let filtered = allDeals;
+
+            if (currentFilter === 'local') filtered = allDeals.filter(d => d.category === 'local');
+            if (currentFilter === 'national') filtered = allDeals.filter(d => d.category === 'national');
+            if (currentFilter === 'flash') filtered = allDeals.filter(d => d.category === 'flash');
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="loading">📭 Aucune offre disponible</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map((deal, i) => {
+                const badgeClass = deal.category === 'local' ? 'badge-local' :
+                                   deal.category === 'flash' ? 'badge-flash' : 'badge-national';
+                const badgeText = deal.badge || deal.category;
+
+                const codeBlock = deal.code ? `
+                    <div class="offer-code">
+                        <span class="offer-code-label">Votre code :</span>
+                        <span class="offer-code-value">${deal.code}</span>
+                    </div>` : '';
+
+                const btnBlock = deal.type === 'code' && deal.code ?
+                    `<button class="offer-btn btn-code" onclick="copyCode(this, '${deal.code}')">📋 Copier le code</button>` :
+                    deal.url ?
+                    `<a href="${deal.url}" target="_blank" class="offer-btn btn-link">Voir l'offre →</a>` : '';
+
+                return `
+                <div class="offer-card" data-category="${deal.category}" style="animation-delay: ${i * 0.05}s">
+                    <span class="offer-badge ${badgeClass}">${badgeText}</span>
+                    <div class="offer-top">
+                        <div class="offer-emoji">${deal.emoji}</div>
+                        <div class="offer-info">
+                            <h4>${deal.title}</h4>
+                            <p>${deal.description}</p>
+                        </div>
+                    </div>
+                    ${codeBlock}
+                    ${btnBlock}
+                </div>`;
+            }).join('');
+        }
+
+        // FILTRES
+        document.getElementById('filters').addEventListener('click', (e) => {
+            if (!e.target.classList.contains('filter-chip')) return;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.dataset.filter;
+
+            const titles = { all: '🔥 Les meilleures offres', local: '🏪 Offres locales', national: '🇧🇪 Offres nationales', flash: '⚡ Offres flash' };
+            document.getElementById('sectionTitle').textContent = titles[currentFilter];
+
+            renderDeals();
         });
 
         // COPY CODE
@@ -409,6 +325,9 @@
                 }, 2000);
             });
         }
+
+        // INIT
+        loadDeals();
     </script>
 </body>
 </html>

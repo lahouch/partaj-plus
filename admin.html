@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partaj+ — Admin Gestion des Offres</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f5f5; color: #1A1A2E; }
+
+        /* HEADER */
+        .admin-header {
+            background: #1A1A2E;
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .admin-logo { font-size: 1.3rem; font-weight: 800; }
+        .admin-logo span { color: #FF6B35; }
+        .admin-badge { background: #FF6B35; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+
+        /* STATS */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 20px 24px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #FF6B35; }
+        .stat-label { font-size: 0.8rem; color: #888; margin-top: 4px; }
+
+        /* TOOLBAR */
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            padding: 0 24px 20px;
+            flex-wrap: wrap;
+        }
+        .toolbar-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-scraper { background: #06D6A0; color: white; }
+        .btn-scraper:hover { background: #05B88A; }
+        .btn-export { background: #004E89; color: white; }
+        .btn-export:hover { background: #003D6B; }
+        .btn-add { background: #FF6B35; color: white; }
+        .btn-add:hover { background: #E55A2B; }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 0;
+            padding: 0 24px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #888;
+            transition: all 0.2s;
+        }
+        .tab.active { color: #FF6B35; border-bottom-color: #FF6B35; }
+        .tab:hover { color: #1A1A2E; }
+        .tab-count {
+            background: #F5F5F5;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 6px;
+        }
+
+        /* DEALS LIST */
+        .deals-container { padding: 0 24px 40px; }
+        .deal-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+        .deal-card.pending { border-left-color: #FFD166; }
+        .deal-card.validated { border-left-color: #06D6A0; }
+        .deal-card.rejected { border-left-color: #EF476F; }
+
+        .deal-emoji { font-size: 2rem; width: 50px; text-align: center; }
+        .deal-info { flex: 1; }
+        .deal-info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .deal-info p { font-size: 0.85rem; color: #888; }
+        .deal-meta { display: flex; gap: 8px; margin-top: 6px; }
+        .deal-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tag-local { background: #E8F8F5; color: #06D6A0; }
+        .tag-national { background: #EBF2FA; color: #004E89; }
+        .tag-flash { background: #FFF0F3; color: #EF476F; }
+        .tag-source { background: #F5F5F5; color: #888; }
+
+        .deal-actions { display: flex; gap: 8px; }
+        .deal-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-validate { background: #E8F8F5; color: #06D6A0; }
+        .btn-validate:hover { background: #06D6A0; color: white; }
+        .btn-reject { background: #FFF0F3; color: #EF476F; }
+        .btn-reject:hover { background: #EF476F; color: white; }
+        .btn-delete { background: #F5F5F5; color: #888; }
+        .btn-delete:hover { background: #EF476F; color: white; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+        .empty-state-icon { font-size: 3rem; margin-bottom: 16px; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal h3 { font-size: 1.2rem; margin-bottom: 20px; }
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #F0F0F5;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .modal-input:focus { outline: none; border-color: #FF6B35; }
+        .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-actions button { flex: 1; }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1A1A2E;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 300;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .deal-card { flex-direction: column; align-items: flex-start; }
+            .deal-actions { width: 100%; justify-content: flex-end; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="admin-header">
+        <div class="admin-logo">Partaj<span>+</span> Admin</div>
+        <div class="admin-badge">Dashboard</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-number" id="totalDeals">0</div>
+            <div class="stat-label">Total offres</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="validatedDeals">0</div>
+            <div class="stat-label">Validées</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="pendingDeals">0</div>
+            <div class="stat-label">En attente</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="localDeals">0</div>
+            <div class="stat-label">Locales</div>
+        </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+        <button class="toolbar-btn btn-scraper" onclick="runScraper()">🔍 Lancer le scraper</button>
+        <button class="toolbar-btn btn-add" onclick="openModal()">➕ Ajouter une offre</button>
+        <button class="toolbar-btn btn-export" onclick="exportDeals()">📥 Exporter JSON</button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="filterTab('all')">Toutes<span class="tab-count" id="countAll">0</span></button>
+        <button class="tab" onclick="filterTab('pending')">En attente<span class="tab-count" id="countPending">0</span></button>
+        <button class="tab" onclick="filterTab('validated')">Validées<span class="tab-count" id="countValidated">0</span></button>
+        <button class="tab" onclick="filterTab('local')">Locales<span class="tab-count" id="countLocal">0</span></button>
+    </div>
+
+    <!-- DEALS -->
+    <div class="deals-container" id="dealsContainer">
+        <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <p>Chargement des offres...</p>
+        </div>
+    </div>
+
+    <!-- MODAL AJOUT -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3>➕ Ajouter une offre</h3>
+            <input type="text" class="modal-input" id="addTitle" placeholder="Titre de l'offre *">
+            <input type="text" class="modal-input" id="addDesc" placeholder="Description">
+            <input type="text" class="modal-input" id="addEmoji" placeholder="Emoji (ex: 🍔)">
+            <input type="text" class="modal-input" id="addCode" placeholder="Code promo (optionnel)">
+            <input type="text" class="modal-input" id="addUrl" placeholder="Lien (optionnel)">
+            <select class="modal-input" id="addCategory">
+                <option value="local">🏪 Local</option>
+                <option value="national">🇧🇪 National</option>
+                <option value="flash">⚡ Flash</option>
+            </select>
+            <div class="modal-actions">
+                <button class="toolbar-btn btn-add" onclick="addDeal()">Ajouter</button>
+                <button class="toolbar-btn btn-delete" onclick="closeModal()">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================
+        // DATA
+        // ============================================
+        let allDeals = [];
+        let currentFilter = 'all';
+
+        // ============================================
+        // CHARGER LES DEALS
+        // ============================================
+        async function loadDeals() {
+            try {
+                const [dealsRes, localRes] = await Promise.all([
+                    fetch('data/deals.json'),
+                    fetch('data/local.json')
+                ]);
+                const dealsData = await dealsRes.json();
+                const localData = await localRes.json();
+
+                allDeals = [
+                    ...dealsData.deals.map(d => ({...d, source: d.source || 'national'})),
+                    ...localData.deals.map(d => ({...d, source: 'local', commune: localData.commune}))
+                ];
+
+                updateStats();
+                renderDeals();
+            } catch (err) {
+                console.error('Erreur chargement:', err);
+                document.getElementById('dealsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p>Erreur de chargement. Vérifiez que data/deals.json et data/local.json existent.</p>
+                    </div>`;
+            }
+        }
+
+        // ============================================
+        // AFFICHER LES DEALS
+        // ============================================
+        function renderDeals() {
+            const container = document.getElementById('dealsContainer');
+            let filtered = allDeals;
+
+            if (currentFilter === 'pending') filtered = allDeals.filter(d => !d.validated);
+            if (currentFilter === 'validated') filtered = allDeals.filter(d => d.validated);
+            if (currentFilter === 'local') filtered = allDeals.filter(d => d.source === 'local' || d.category === 'local');
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>Aucune offre dans cette catégorie</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(deal => `
+                <div class="deal-card ${deal.validated ? 'validated' : 'pending'}" data-id="${deal.id}">
+                    <div class="deal-emoji">${deal.emoji}</div>
+                    <div class="deal-info">
+                        <h4>${deal.title}</h4>
+                        <p>${deal.description}</p>
+                        <div class="deal-meta">
+                            <span class="deal-tag tag-${deal.category}">${deal.category}</span>
+                            ${deal.code ? `<span class="deal-tag tag-source">Code: ${deal.code}</span>` : ''}
+                            <span class="deal-tag tag-source">${deal.source}</span>
+                            ${deal.discount ? `<span class="deal-tag tag-flash">${deal.discount}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="deal-actions">
+                        ${!deal.validated ? `<button class="deal-btn btn-validate" onclick="validateDeal('${deal.id}')" title="Valider">✅</button>` : ''}
+                        <button class="deal-btn btn-reject" onclick="toggleDeal('${deal.id}')" title="${deal.validated ? 'Dévalider' : 'Refuser'}">${deal.validated ? '↩️' : '❌'}</button>
+                        <button class="deal-btn btn-delete" onclick="deleteDeal('${deal.id}')" title="Supprimer">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // ACTIONS
+        // ============================================
+        function validateDeal(id) {
+            const deal = allDeals.find(d => d.id === id);
+            if (deal) { deal.validated = true; saveDeals(); renderDeals(); updateStats(); showToast('Offre validée !'); }
+        }
+
+        function toggleDeal(id) {
+            const deal = allDeals.find(d => d.id === id);
+            if (deal) { deal.validated = !deal.validated; saveDeals(); renderDeals(); updateStats(); showToast('Statut mis à jour'); }
+        }
+
+        function deleteDeal(id) {
+            if (!confirm('Supprimer cette offre ?')) return;
+            allDeals = allDeals.filter(d => d.id !== id);
+            saveDeals(); renderDeals(); updateStats(); showToast('Offre supprimée');
+        }
+
+        function filterTab(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderDeals();
+        }
+
+        // ============================================
+        // SAUVEGARDER (LOCAL)
+        // ============================================
+        function saveDeals() {
+            const national = allDeals.filter(d => d.source !== 'local');
+            const local = allDeals.filter(d => d.source === 'local');
+
+            const dealsData = { lastUpdated: new Date().toISOString(), source: 'auto', deals: national };
+            const localData = { commune: 'Anderlecht', lastUpdated: new Date().toISOString(), deals: local };
+
+            localStorage.setItem('partaj-deals', JSON.stringify(dealsData));
+            localStorage.setItem('partaj-local', JSON.stringify(localData));
+        }
+
+        // ============================================
+        // STATS
+        // ============================================
+        function updateStats() {
+            document.getElementById('totalDeals').textContent = allDeals.length;
+            document.getElementById('validatedDeals').textContent = allDeals.filter(d => d.validated).length;
+            document.getElementById('pendingDeals').textContent = allDeals.filter(d => !d.validated).length;
+            document.getElementById('localDeals').textContent = allDeals.filter(d => d.source === 'local' || d.category === 'local').length;
+
+            document.getElementById('countAll').textContent = allDeals.length;
+            document.getElementById('countPending').textContent = allDeals.filter(d => !d.validated).length;
+            document.getElementById('countValidated').textContent = allDeals.filter(d => d.validated).length;
+            document.getElementById('countLocal').textContent = allDeals.filter(d => d.source === 'local').length;
+        }
+
+        // ============================================
+        // MODAL
+        // ============================================
+        function openModal() { document.getElementById('modalOverlay').classList.add('active'); }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+
+        function addDeal() {
+            const title = document.getElementById('addTitle').value.trim();
+            if (!title) { showToast('Titre requis !'); return; }
+
+            const emojis = { local: '🏪', national: '🏷️', flash: '⚡' };
+            const category = document.getElementById('addCategory').value;
+
+            allDeals.push({
+                id: 'manual-' + Date.now(),
+                title: title,
+                description: document.getElementById('addDesc').value.trim(),
+                emoji: document.getElementById('addEmoji').value.trim() || emojis[category],
+                category: category,
+                badge: category.charAt(0).toUpperCase() + category.slice(1),
+                type: document.getElementById('addCode').value ? 'code' : 'link',
+                url: document.getElementById('addUrl').value.trim() || null,
+                code: document.getElementById('addCode').value.trim() || null,
+                discount: 'Voir offre',
+                expiresAt: null,
+                validated: true,
+                featured: false,
+                source: category === 'local' ? 'local' : 'manual'
+            });
+
+            saveDeals(); renderDeals(); updateStats(); closeModal();
+            showToast('Offre ajoutée !');
+
+            ['addTitle','addDesc','addEmoji','addCode','addUrl'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        // ============================================
+        // EXPORT
+        // ============================================
+        function exportDeals() {
+            const data = {
+                lastUpdated: new Date().toISOString(),
+                deals: allDeals.filter(d => d.validated)
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'deals-export.json'; a.click();
+            showToast('Export téléchargé !');
+        }
+
+        // ============================================
+        // SCRAPER (simulé)
+        // ============================================
+        function runScraper() {
+            showToast('🔍 Scraper lancé... (exécutez scripts/scraper.py en local)');
+        }
+
+        // ============================================
+        // TOAST
+        // ============================================
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        loadDeals();
+    </script>
+</body>
+</html>
