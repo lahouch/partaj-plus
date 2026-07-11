@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --primary: #FF6B35;
@@ -226,11 +227,8 @@
             background: white; border-radius: 20px; padding: 24px; margin-top: 24px;
             text-align: center; color: var(--dark);
         }
-        .pass-qr-box {
-            width: 140px; height: 140px; margin: 0 auto; border: 4px dashed var(--gray-100);
-            border-radius: 16px; display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; opacity: 0.15;
-        }
+        #qr-container { display: flex; align-items: center; justify-content: center; }
+        #qr-container img { border-radius: 8px; }
         .pass-qr-label { font-size: 0.6rem; font-weight: 700; color: var(--gray-300); margin-top: 12px; letter-spacing: 2px; text-transform: uppercase; }
         .pass-member { margin-top: 16px; text-align: left; }
         .pass-member .role { font-size: 0.65rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 2px; }
@@ -368,7 +366,7 @@
             <div class="pass-title">Partaj<span>+</span></div>
             <div class="pass-sub">Pass Privilège Officiel</div>
             <div class="pass-qr">
-                <div class="pass-qr-box">📱</div>
+                <div id="qr-container" style="display:flex; align-items:center; justify-content:center; min-height:140px;"></div>
                 <div class="pass-qr-label">QR Code actif</div>
             </div>
             <div class="pass-member">
@@ -419,6 +417,7 @@
         const input = document.getElementById('access-code-input').value.toUpperCase();
         if (validCodes.includes(input)) {
             localStorage.setItem('partaj_plus_auth', 'true');
+            localStorage.setItem('partaj_plus_code', input);
             unlockApp();
         } else {
             document.getElementById('auth-error').classList.add('show');
@@ -444,7 +443,25 @@
     }
 
     function togglePass() {
-        document.getElementById('pass-modal').classList.toggle('show');
+        const modal = document.getElementById('pass-modal');
+        modal.classList.toggle('show');
+        
+        if (modal.classList.contains('show')) {
+            const code = localStorage.getItem('partaj_plus_code') || 'DEMO2026';
+            const url = 'https://lahouch.github.io/partaj-plus/app.html?code=' + code;
+            
+            const container = document.getElementById('qr-container');
+            container.innerHTML = '';
+            
+            new QRCode(container, {
+                text: url,
+                width: 120,
+                height: 120,
+                colorDark: '#1A1A2E',
+                colorLight: '#FFFFFF',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
     }
 
     function render() {
@@ -490,6 +507,17 @@
     }
 
     window.onload = () => {
+        // Auto-login via URL ?code=XXX
+        const params = new URLSearchParams(window.location.search);
+        const urlCode = params.get('code');
+        if (urlCode && validCodes.includes(urlCode.toUpperCase())) {
+            localStorage.setItem('partaj_plus_auth', 'true');
+            localStorage.setItem('partaj_plus_code', urlCode.toUpperCase());
+            unlockApp();
+            return;
+        }
+        
+        // Sinon, vérifier le localStorage
         if (localStorage.getItem('partaj_plus_auth') === 'true') unlockApp();
     };
 </script>
