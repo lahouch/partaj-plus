@@ -754,17 +754,53 @@ img { max-width: 100%; display: block; }
 }
 
 .pricing-cards {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
 }
 
 .pricing-card {
     background: var(--white);
     border-radius: var(--radius-lg);
-    padding: 48px 40px;
-    max-width: 480px;
-    width: 100%;
+    padding: 40px 32px;
     box-shadow: var(--shadow-xl);
+    position: relative;
+    transition: var(--transition);
+}
+
+.pricing-card:hover {
+    transform: translateY(-4px);
+}
+
+.pricing-card-featured {
+    transform: scale(1.05);
+    border: 3px solid var(--primary);
+    z-index: 2;
+}
+
+.pricing-card-featured:hover {
+    transform: scale(1.05) translateY(-4px);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gray-300);
+    color: var(--white);
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.pricing-badge.featured {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
 }
 
 .pricing-header {
@@ -778,6 +814,12 @@ img { max-width: 100%; display: block; }
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.pricing-subtitle {
+    font-size: 0.85rem;
+    color: var(--gray-500);
     margin-bottom: 16px;
 }
 
@@ -790,6 +832,12 @@ img { max-width: 100%; display: block; }
 
 .price-amount {
     font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.price-custom {
+    font-size: 2.5rem;
     font-weight: 800;
     color: var(--primary);
 }
@@ -1511,6 +1559,19 @@ img { max-width: 100%; display: block; }
 
     .pricing-card {
         padding: 32px 24px;
+    }
+
+    .pricing-card-featured {
+        transform: none;
+    }
+
+    .pricing-card-featured:hover {
+        transform: translateY(-4px);
+    }
+
+    .pricing-cards {
+        grid-template-columns: 1fr;
+        gap: 32px;
     }
 
     .price-amount {

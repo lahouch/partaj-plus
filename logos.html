@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logos Partaj+ — Concepts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f5f5; padding: 40px 20px; }
+        h1 { text-align: center; margin-bottom: 40px; color: #1A1A2E; }
+        .logos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .logo-card { background: white; border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .logo-card h2 { font-size: 1.1rem; color: #555; margin-bottom: 24px; }
+        .logo-display { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+
+        /* LOGO 1 - Le Plus Partagé */
+        .logo1 { position: relative; }
+        .logo1 .circle1 { width: 100px; height: 100px; border: 4px solid #FF6B35; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-70%, -50%); }
+        .logo1 .circle2 { width: 100px; height: 100px; border: 4px solid #004E89; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-30%, -50%); }
+        .logo1 .plus { font-size: 2.5rem; font-weight: 900; color: #FF6B35; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: white; padding: 0 8px; z-index: 2; }
+
+        /* LOGO 2 - Le Cœur Local */
+        .logo2 .heart { position: relative; width: 120px; height: 100px; }
+        .logo2 .heart::before, .logo2 .heart::after { content: ''; position: absolute; top: 0; width: 60px; height: 80px; border-radius: 60px 60px 0 0; }
+        .logo2 .heart::before { left: 60px; transform: rotate(-45deg); transform-origin: 0 100%; background: linear-gradient(135deg, #FF6B35, #EF476F); }
+        .logo2 .heart::after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; background: linear-gradient(135deg, #EF476F, #FF6B35); }
+        .logo2 .heart-plus { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); font-size: 2rem; font-weight: 900; color: white; z-index: 2; }
+        .logo2 .heart-circle { width: 140px; height: 140px; border: 3px solid #FFD166; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+        /* LOGO 3 - La Connexion */
+        .logo3 .connex { display: flex; align-items: center; gap: 0; }
+        .logo3 .letter { font-size: 3.5rem; font-weight: 900; }
+        .logo3 .letter-p { color: #FF6B35; }
+        .logo3 .letter-plus { color: #FFD166; font-size: 2.5rem; margin: 0 5px; }
+        .logo3 .letter-j { color: #004E89; }
+        .logo3 .line { width: 60px; height: 4px; background: linear-gradient(90deg, #FF6B35, #004E89); border-radius: 2px; margin-top: 10px; }
+
+        /* LOGO 4 - Le Bouclier */
+        .logo4 .shield { position: relative; width: 100px; height: 120px; }
+        .logo4 .shield-bg { width: 100px; height: 120px; background: linear-gradient(180deg, #004E89, #003D6B); clip-path: polygon(50% 0%, 100% 15%, 100% 70%, 50% 100%, 0% 70%, 0% 15%); position: relative; }
+        .logo4 .shield-plus { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); font-size: 2.5rem; font-weight: 900; color: #FF6B35; }
+        .logo4 .shield-accent { position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 40px; height: 6px; background: #FFD166; border-radius: 3px; }
+
+        /* LOGO 5 - Le Cercle */
+        .logo5 .circle-outer { width: 130px; height: 130px; border: 5px solid #FF6B35; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; }
+        .logo5 .circle-inner { width: 90px; height: 90px; border: 3px solid #FFD166; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .logo5 .circle-center { width: 16px; height: 16px; background: #06D6A0; border-radius: 50%; position: absolute; top: 12px; right: 20px; }
+        .logo5 .circle-text { font-size: 1.8rem; font-weight: 900; color: #004E89; }
+        .logo5 .circle-text span { color: #FF6B35; }
+
+        .desc { font-size: 0.85rem; color: #888; line-height: 1.5; }
+        .colors { display: flex; gap: 8px; justify-content: center; margin-top: 16px; }
+        .color-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body>
+    <h1>5 Concepts de Logos — Partaj+</h1>
+
+    <div class="logos-grid">
+
+        <!-- LOGO 1 -->
+        <div class="logo-card">
+            <h2>Logo 1 — Le Plus Partagé</h2>
+            <div class="logo-display">
+                <div class="logo1">
+                    <div class="circle1"></div>
+                    <div class="circle2"></div>
+                    <div class="plus">+</div>
+                </div>
+            </div>
+            <p class="desc">Deux cercles qui se rejoignent autour du "+". Symbolise la connexion entre les PME, les salariés et l'ASBL.</p>
+            <div class="colors">
+                <div class="color-dot" style="background:#FF6B35"></div>
+                <div class="color-dot" style="background:#004E89"></div>
+                <div class="color-dot" style="background:#FFD166"></div>
+            </div>
+        </div>
+
+        <!-- LOGO 2 -->
+        <div class="logo-card">
+            <h2>Logo 2 — Le Cœur Solidaire</h2>
+            <div class="logo-display">
+                <div class="logo2">
+                    <div class="heart-circle"></div>
+                    <div class="heart"></div>
+                    <div class="heart-plus">+</div>
+                </div>
+            </div>
+            <p class="desc">Un cœur stylisé avec le "+". Évoque la solidarité, l'impact social et la bienveillance de PARTAJOY.</p>
+            <div class="colors">
+                <div class="color-dot" style="background:#FF6B35"></div>
+                <div class="color-dot" style="background:#EF476F"></div>
+                <div class="color-dot" style="background:#FFD166"></div>
+            </div>
+        </div>
+
+        <!-- LOGO 3 -->
+        <div class="logo-card">
+            <h2>Logo 3 — La Connexion</h2>
+            <div class="logo-display">
+                <div class="logo3">
+                    <div class="connex">
+                        <span class="letter letter-p">P</span>
+                        <span class="letter-plus">+</span>
+                        <span class="letter letter-j">J</span>
+                    </div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <p class="desc">Les initiales P (Partaj) et J (Joy de PARTAJOY) reliées par le "+". Simple et mémorable.</p>
+            <div class="colors">
+                <div class="color-dot" style="background:#FF6B35"></div>
+                <div class="color-dot" style="background:#004E89"></div>
+                <div class="color-dot" style="background:#FFD166"></div>
+            </div>
+        </div>
+
+        <!-- LOGO 4 -->
+        <div class="logo-card">
+            <h2>Logo 4 — Le Bouclier</h2>
+            <div class="logo-display">
+                <div class="logo4">
+                    <div class="shield">
+                        <div class="shield-bg">
+                            <div class="shield-plus">+</div>
+                        </div>
+                        <div class="shield-accent"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="desc">Un bouclier avec le "+". Symbolise la protection et les avantages offerts aux salariés.</p>
+            <div class="colors">
+                <div class="color-dot" style="background:#004E89"></div>
+                <div class="color-dot" style="background:#FF6B35"></div>
+                <div class="color-dot" style="background:#FFD166"></div>
+            </div>
+        </div>
+
+        <!-- LOGO 5 -->
+        <div class="logo-card">
+            <h2>Logo 5 — Le Cercle Communautaire</h2>
+            <div class="logo-display">
+                <div class="logo5">
+                    <div class="circle-outer">
+                        <div class="circle-inner">
+                            <span class="circle-text">P<span>+</span></span>
+                        </div>
+                        <div class="circle-center"></div>
+                    </div>
+                </div>
+            </div>
+            <p class="desc">Un cercle (communauté locale) avec les initiales. Le point vert représente l'aspect écologique.</p>
+            <div class="colors">
+                <div class="color-dot" style="background:#FF6B35"></div>
+                <div class="color-dot" style="background:#004E89"></div>
+                <div class="color-dot" style="background:#06D6A0"></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
