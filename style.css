@@ -212,12 +212,13 @@ img { max-width: 100%; display: block; }
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 28rem;
-    font-weight: 800;
-    color: rgba(255, 107, 53, 0.04);
+    font-size: 30rem;
+    font-weight: 900;
+    color: rgba(255, 107, 53, 0.07);
     pointer-events: none;
     z-index: 1;
     line-height: 1;
+    letter-spacing: -10px;
 }
 
 .hero-container {
