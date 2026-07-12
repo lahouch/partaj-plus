@@ -561,6 +561,87 @@ img { max-width: 100%; display: block; }
 }
 
 /* ============================================
+   PLATFORMS
+   ============================================ */
+.platforms {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.platform-card {
+    background: var(--bg);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.platform-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.platform-active {
+    border-color: var(--primary);
+    background: linear-gradient(180deg, rgba(255,107,53,0.05) 0%, var(--bg) 100%);
+}
+
+.platform-active:hover {
+    border-color: var(--primary-dark);
+}
+
+.platform-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.platform-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
+.platform-card p {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.platform-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.platform-status.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.platform-status.soon {
+    background: var(--gray-100);
+    color: var(--gray-500);
+}
+
+/* ============================================
    HOW IT WORKS
    ============================================ */
 .how-it-works {
@@ -1617,6 +1698,11 @@ img { max-width: 100%; display: block; }
 
 @media (max-width: 768px) {
     html { font-size: 15px; }
+
+    .platforms-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
 
     .nav-links {
         position: fixed;
