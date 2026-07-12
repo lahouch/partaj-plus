@@ -1,51 +1,12 @@
 {
-  "commune": "Anderlecht",
-  "lastUpdated": "2026-07-11T22:00:00Z",
   "deals": [
     {
-      "id": "burger-factory-001",
-      "title": "Burger Factory Anderlecht",
-      "description": "1 café offert avec chaque menu acheté",
+      "title": "Burger Factory",
+      "description": "1 café offert avec chaque menu acheté  Code : ANDERLECHT-PROMO",
       "emoji": "🍔",
+      "commune": "anderlecht",
       "category": "local",
-      "badge": "Local",
-      "type": "code",
-      "url": null,
-      "code": "ANDERLECHT-PROMO",
-      "discount": "1 café offert",
-      "expiresAt": null,
-      "validated": true,
-      "featured": true
-    },
-    {
-      "id": "padel-001",
-      "title": "Padel Club Anderlecht",
-      "description": "-20% sur la location de terrain le mercredi",
-      "emoji": "🏓",
-      "category": "local",
-      "badge": "Local",
-      "type": "code",
-      "url": null,
-      "code": "PADXL-20",
-      "discount": "-20%",
-      "expiresAt": null,
-      "validated": true,
-      "featured": false
-    },
-    {
-      "id": "pizza-001",
-      "title": "Pizzeria Chez Marco",
-      "description": "1 pizza achetée, 1 offerte le mardi soir",
-      "emoji": "🍕",
-      "category": "local",
-      "badge": "Local",
-      "type": "code",
-      "url": null,
-      "code": "MARCO21",
-      "discount": "1 pizza offerte",
-      "expiresAt": null,
-      "validated": true,
-      "featured": false
+      "validated": true
     }
   ]
 }

@@ -1,81 +1,11 @@
 {
-  "lastUpdated": "2026-07-11T21:21:06.466423",
-  "source": "auto",
   "deals": [
     {
-      "id": "kinepolis-001",
-      "title": "Kinepolis Movie Card",
-      "description": "-25% sur vos tickets cinéma grâce à la Movie Card",
+      "title": "Kinepolis Movie Card -25% sur vos tickets cinéma grâce à la Movie Card",
+      "description": "11.20",
       "emoji": "🎬",
       "category": "national",
-      "badge": "Populaire",
-      "type": "link",
-      "url": "https://www.kinepolis.be/fr/offres",
-      "code": null,
-      "discount": "-25%",
-      "expiresAt": null,
-      "validated": true,
-      "featured": true
-    },
-    {
-      "id": "zalando-001",
-      "title": "Zalando.be",
-      "description": "-10% sur votre première commande via la newsletter",
-      "emoji": "👕",
-      "category": "national",
-      "badge": "National",
-      "type": "link",
-      "url": "https://www.zalando.be",
-      "code": null,
-      "discount": "-10%",
-      "expiresAt": null,
-      "validated": true,
-      "featured": false
-    },
-    {
-      "id": "walibi-001",
-      "title": "Walibi Belgium",
-      "description": "-20% sur les entrées en ligne (achat anticipé 7j)",
-      "emoji": "🎢",
-      "category": "flash",
-      "badge": "Flash",
-      "type": "link",
-      "url": "https://www.walibi.be/fr/billets",
-      "code": null,
-      "discount": "-20%",
-      "expiresAt": "2026-08-31",
-      "validated": true,
-      "featured": true
-    },
-    {
-      "id": "booking-001",
-      "title": "Booking.com — Astuce Genius",
-      "description": "Débloquez -10% à -20% sur les hôtels",
-      "emoji": "🏨",
-      "category": "national",
-      "badge": "National",
-      "type": "link",
-      "url": "https://www.booking.com",
-      "code": null,
-      "discount": "-10% à -20%",
-      "expiresAt": null,
-      "validated": true,
-      "featured": false
-    },
-    {
-      "id": "amazon-001",
-      "title": "Amazon — Promo de la semaine",
-      "description": "Jusqu'à -40% sur la high-tech",
-      "emoji": "🛒",
-      "category": "flash",
-      "badge": "Flash",
-      "type": "link",
-      "url": "https://www.amazon.be",
-      "code": null,
-      "discount": "Jusqu'à -40%",
-      "expiresAt": "2026-07-18",
-      "validated": true,
-      "featured": true
+      "validated": true
     }
   ]
 }
