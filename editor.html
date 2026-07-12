@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partaj+ — Éditeur de Catalogue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #004E89;
+            --dark: #1A1A2E;
+            --gray-500: #8888A0;
+            --gray-100: #F0F0F5;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            --font: 'Inter', sans-serif;
+            --radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font); background: var(--bg); color: var(--dark); }
+
+        .header {
+            background: var(--white); border-bottom: 1px solid var(--gray-100);
+            padding: 20px 24px; position: sticky; top: 0; z-index: 100;
+        }
+        .header-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon {
+            width: 40px; height: 40px; background: var(--primary); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 1.1rem;
+        }
+        .logo h1 { font-size: 1.25rem; font-weight: 800; color: var(--dark); }
+        .logo h1 span { color: var(--primary); }
+
+        .header-actions { display: flex; gap: 12px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; border-radius: var(--radius); font-weight: 600;
+            font-size: 0.85rem; border: none; cursor: pointer; transition: all 0.3s;
+            font-family: var(--font); text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--gray-100); color: var(--dark); }
+        .btn-secondary:hover { background: #E5E5EA; }
+        .btn-success { background: #06D6A0; color: white; }
+        .btn-success:hover { background: #05B88A; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+        .tabs {
+            display: flex; gap: 8px; margin-bottom: 32px;
+            border-bottom: 2px solid var(--gray-100); padding-bottom: 12px;
+        }
+        .tab {
+            padding: 12px 24px; border-radius: var(--radius) var(--radius) 0 0;
+            font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer;
+            background: var(--gray-100); color: var(--gray-500);
+            transition: all 0.3s; font-family: var(--font);
+        }
+        .tab.active { background: var(--primary); color: white; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .card {
+            background: var(--white); border-radius: 16px; padding: 24px;
+            box-shadow: var(--shadow-sm); margin-bottom: 24px;
+        }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--gray-500); }
+        .form-group input, .form-group select {
+            padding: 12px 16px; border: 2px solid var(--gray-100); border-radius: 10px;
+            font-family: var(--font); font-size: 0.9rem; outline: none; transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+
+        .offers-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+        .offer-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; background: var(--gray-100); border-radius: 12px;
+        }
+        .offer-left { display: flex; align-items: center; gap: 14px; }
+        .offer-emoji { font-size: 1.8rem; }
+        .offer-name { font-weight: 700; font-size: 0.95rem; }
+        .offer-desc { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
+        .offer-actions { display: flex; gap: 8px; }
+        .offer-actions button {
+            padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer;
+            font-size: 0.8rem; font-weight: 600; font-family: var(--font); transition: all 0.3s;
+        }
+        .btn-edit { background: var(--secondary); color: white; }
+        .btn-edit:hover { background: #003D6B; }
+        .btn-delete { background: #EF476F; color: white; }
+        .btn-delete:hover { background: #D9375A; }
+
+        .json-preview {
+            background: var(--dark); color: #A8E6CF; padding: 20px;
+            border-radius: 12px; font-family: 'Courier New', monospace;
+            font-size: 0.8rem; max-height: 300px; overflow: auto;
+            white-space: pre-wrap; word-break: break-all;
+        }
+
+        .toast {
+            position: fixed; bottom: 24px; right: 24px; background: var(--dark);
+            color: white; padding: 14px 24px; border-radius: 12px; font-weight: 600;
+            font-size: 0.9rem; transform: translateY(100px); opacity: 0;
+            transition: all 0.3s; z-index: 1000;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        .emoji-picker {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+        }
+        .emoji-option {
+            width: 40px; height: 40px; border: 2px solid var(--gray-100);
+            border-radius: 8px; background: var(--white); cursor: pointer;
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .emoji-option:hover { border-color: var(--primary); }
+        .emoji-option.selected { border-color: var(--primary); background: rgba(255,107,53,0.1); }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; gap: 16px; }
+            .tabs { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">P+</div>
+                <h1>Partaj<span>+</span> Éditeur</h1>
+            </a>
+            <div class="header-actions">
+                <button onclick="loadFromFiles()" class="btn btn-secondary">📂 Charger JSON</button>
+                <button onclick="downloadAll()" class="btn btn-success">💾 Télécharger tout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('flash')">🔥 Ventes Flash</button>
+            <button class="tab" onclick="switchTab('national')">🇧🇪 Socle National</button>
+            <button class="tab" onclick="switchTab('local')">📍 Réseau Local</button>
+        </div>
+
+        <!-- FLASH SECTION -->
+        <div id="section-flash" class="section active">
+            <div class="card">
+                <div class="card-title">Ajouter une offre flash</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titre du produit</label>
+                        <input type="text" id="flash-title" placeholder="Philips Airfryer XXL">
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie</label>
+                        <input type="text" id="flash-cat" placeholder="Cuisine, Tech, Café...">
+                    </div>
+                    <div class="form-group">
+                        <label>Ancien prix (€)</label>
+                        <input type="number" id="flash-old" placeholder="249">
+                    </div>
+                    <div class="form-group">
+                        <label>Nouveau prix (€)</label>
+                        <input type="number" id="flash-new" placeholder="179">
+                    </div>
+                    <div class="form-group">
+                        <label>Boutique</label>
+                        <input type="text" id="flash-shop" placeholder="Amazon.fr">
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji</label>
+                        <div class="emoji-picker" id="flash-emojis">
+                            <div class="emoji-option" data-emoji="🍳">🍳</div>
+                            <div class="emoji-option" data-emoji="🎧">🎧</div>
+                            <div class="emoji-option" data-emoji="☕">☕</div>
+                            <div class="emoji-option" data-emoji="📱">📱</div>
+                            <div class="emoji-option" data-emoji="💻">💻</div>
+                            <div class="emoji-option" data-emoji="🎮">🎮</div>
+                            <div class="emoji-option" data-emoji="👕">👕</div>
+                            <div class="emoji-option" data-emoji="👟">👟</div>
+                            <div class="emoji-option" data-emoji="🏠">🏠</div>
+                            <div class="emoji-option" data-emoji="⚽">⚽</div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="addFlash()" class="btn btn-primary" style="margin-top: 16px;">➕ Ajouter l'offre</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Offres flash existantes</div>
+                <div id="flash-list" class="offers-list"></div>
+            </div>
+        </div>
+
+        <!-- NATIONAL SECTION -->
+        <div id="section-national" class="section">
+            <div class="card">
+                <div class="card-title">Ajouter une offre nationale</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nom du partenaire</label>
+                        <input type="text" id="nat-partner" placeholder="Kinepolis">
+                    </div>
+                    <div class="form-group">
+                        <label>Avantage</label>
+                        <input type="text" id="nat-deal" placeholder="Ticket à 11,20€">
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji</label>
+                        <div class="emoji-picker" id="nat-emojis">
+                            <div class="emoji-option" data-emoji="🎬">🎬</div>
+                            <div class="emoji-option" data-emoji="🎢">🎢</div>
+                            <div class="emoji-option" data-emoji="🏨">🏨</div>
+                            <div class="emoji-option" data-emoji="🛍️">🛍️</div>
+                            <div class="emoji-option" data-emoji="🥾">🥾</div>
+                            <div class="emoji-option" data-emoji="🐼">🐼</div>
+                            <div class="emoji-option" data-emoji="🍕">🍕</div>
+                            <div class="emoji-option" data-emoji="✈️">✈️</div>
+                            <div class="emoji-option" data-emoji="🏋️">🏋️</div>
+                            <div class="emoji-option" data-emoji="📚">📚</div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="addNational()" class="btn btn-primary" style="margin-top: 16px;">➕ Ajouter l'offre</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Offres nationales existantes</div>
+                <div id="nat-list" class="offers-list"></div>
+            </div>
+        </div>
+
+        <!-- LOCAL SECTION -->
+        <div id="section-local" class="section">
+            <div class="card">
+                <div class="card-title">Ajouter une offre locale</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nom du commerce</label>
+                        <input type="text" id="local-name" placeholder="Le Burger du Coin">
+                    </div>
+                    <div class="form-group">
+                        <label>Commune</label>
+                        <select id="local-commune">
+                            <option value="anderlecht">Anderlecht (1070)</option>
+                            <option value="evere">Evere (1140)</option>
+                            <option value="ixelles">Ixelles (1050)</option>
+                            <option value="bruxelles">Bruxelles (1000)</option>
+                            <option value="schaerbeek">Schaerbeek (1030)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Réduction</label>
+                        <input type="text" id="local-deal" placeholder="-15% addition">
+                    </div>
+                    <div class="form-group">
+                        <label>Emoji</label>
+                        <div class="emoji-picker" id="local-emojis">
+                            <div class="emoji-option" data-emoji="🍔">🍔</div>
+                            <div class="emoji-option" data-emoji="🍕">🍕</div>
+                            <div class="emoji-option" data-emoji="☕">☕</div>
+                            <div class="emoji-option" data-emoji="🎯">🎯</div>
+                            <div class="emoji-option" data-emoji="🏋️">🏋️</div>
+                            <div class="emoji-option" data-emoji="🎾">🎾</div>
+                            <div class="emoji-option" data-emoji="📚">📚</div>
+                            <div class="emoji-option" data-emoji="🛒">🛒</div>
+                            <div class="emoji-option" data-emoji="💇">💇</div>
+                            <div class="emoji-option" data-emoji="🐾">🐾</div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="addLocal()" class="btn btn-primary" style="margin-top: 16px;">➕ Ajouter l'offre</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Offres locales existantes</div>
+                <div id="local-list" class="offers-list"></div>
+            </div>
+        </div>
+
+        <!-- JSON PREVIEW -->
+        <div class="card">
+            <div class="card-title">📋 Aperçu JSON</div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button onclick="showJson('flash')" class="btn btn-secondary btn-sm">Flash</button>
+                <button onclick="showJson('national')" class="btn btn-secondary btn-sm">National</button>
+                <button onclick="showJson('local')" class="btn btn-secondary btn-sm">Local</button>
+            </div>
+            <div id="json-preview" class="json-preview">// Sélectionnez un type pour voir le JSON</div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <input type="file" id="file-input" accept=".json" style="display:none" multiple>
+
+    <script>
+        let flashData = [];
+        let nationalData = [];
+        let localDataList = [];
+        let editingId = null;
+        let editingType = null;
+
+        // Emoji selection
+        document.querySelectorAll('.emoji-picker').forEach(picker => {
+            picker.addEventListener('click', (e) => {
+                const option = e.target.closest('.emoji-option');
+                if (!option) return;
+                picker.querySelectorAll('.emoji-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        function getSelectedEmoji(pickerId) {
+            const selected = document.querySelector(`#${pickerId} .emoji-option.selected`);
+            return selected ? selected.dataset.emoji : '📌';
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('section-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // FLASH
+        function addFlash() {
+            const title = document.getElementById('flash-title').value.trim();
+            const cat = document.getElementById('flash-cat').value.trim();
+            const old = document.getElementById('flash-old').value;
+            const newP = document.getElementById('flash-new').value;
+            const shop = document.getElementById('flash-shop').value.trim();
+            const icon = getSelectedEmoji('flash-emojis');
+
+            if (!title || !cat || !old || !newP || !shop) {
+                showToast('⚠️ Remplissez tous les champs');
+                return;
+            }
+
+            const offer = { title, cat, old: parseInt(old), new: parseInt(newP), shop, icon };
+            
+            if (editingType === 'flash' && editingId !== null) {
+                flashData[editingId] = offer;
+                editingId = null;
+                editingType = null;
+                showToast('✅ Offre modifiée');
+            } else {
+                flashData.push(offer);
+                showToast('✅ Offre ajoutée');
+            }
+
+            clearForm('flash');
+            renderFlash();
+        }
+
+        function renderFlash() {
+            const container = document.getElementById('flash-list');
+            container.innerHTML = flashData.map((o, i) => `
+                <div class="offer-item">
+                    <div class="offer-left">
+                        <span class="offer-emoji">${o.icon}</span>
+                        <div>
+                            <div class="offer-name">${o.title}</div>
+                            <div class="offer-desc">${o.cat} · ${o.old}€ → ${o.new}€ · ${o.shop}</div>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-edit" onclick="editFlash(${i})">✏️</button>
+                        <button class="btn-delete" onclick="deleteFlash(${i})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editFlash(i) {
+            const o = flashData[i];
+            document.getElementById('flash-title').value = o.title;
+            document.getElementById('flash-cat').value = o.cat;
+            document.getElementById('flash-old').value = o.old;
+            document.getElementById('flash-new').value = o.new;
+            document.getElementById('flash-shop').value = o.shop;
+            editingId = i;
+            editingType = 'flash';
+            showToast('📝 Mode édition');
+        }
+
+        function deleteFlash(i) {
+            flashData.splice(i, 1);
+            renderFlash();
+            showToast('🗑️ Offre supprimée');
+        }
+
+        // NATIONAL
+        function addNational() {
+            const partner = document.getElementById('nat-partner').value.trim();
+            const deal = document.getElementById('nat-deal').value.trim();
+            const icon = getSelectedEmoji('nat-emojis');
+
+            if (!partner || !deal) {
+                showToast('⚠️ Remplissez tous les champs');
+                return;
+            }
+
+            const offer = { partner, deal, icon };
+            
+            if (editingType === 'national' && editingId !== null) {
+                nationalData[editingId] = offer;
+                editingId = null;
+                editingType = null;
+                showToast('✅ Offre modifiée');
+            } else {
+                nationalData.push(offer);
+                showToast('✅ Offre ajoutée');
+            }
+
+            clearForm('national');
+            renderNational();
+        }
+
+        function renderNational() {
+            const container = document.getElementById('nat-list');
+            container.innerHTML = nationalData.map((o, i) => `
+                <div class="offer-item">
+                    <div class="offer-left">
+                        <span class="offer-emoji">${o.icon}</span>
+                        <div>
+                            <div class="offer-name">${o.partner}</div>
+                            <div class="offer-desc">${o.deal}</div>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-edit" onclick="editNational(${i})">✏️</button>
+                        <button class="btn-delete" onclick="deleteNational(${i})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editNational(i) {
+            const o = nationalData[i];
+            document.getElementById('nat-partner').value = o.partner;
+            document.getElementById('nat-deal').value = o.deal;
+            editingId = i;
+            editingType = 'national';
+            showToast('📝 Mode édition');
+        }
+
+        function deleteNational(i) {
+            nationalData.splice(i, 1);
+            renderNational();
+            showToast('🗑️ Offre supprimée');
+        }
+
+        // LOCAL
+        function addLocal() {
+            const name = document.getElementById('local-name').value.trim();
+            const commune = document.getElementById('local-commune').value;
+            const deal = document.getElementById('local-deal').value.trim();
+            const icon = getSelectedEmoji('local-emojis');
+
+            if (!name || !deal) {
+                showToast('⚠️ Remplissez tous les champs');
+                return;
+            }
+
+            const offer = { name, commune, deal, icon };
+            
+            if (editingType === 'local' && editingId !== null) {
+                localDataList[editingId] = offer;
+                editingId = null;
+                editingType = null;
+                showToast('✅ Offre modifiée');
+            } else {
+                localDataList.push(offer);
+                showToast('✅ Offre ajoutée');
+            }
+
+            clearForm('local');
+            renderLocal();
+        }
+
+        function renderLocal() {
+            const container = document.getElementById('local-list');
+            container.innerHTML = localDataList.map((o, i) => `
+                <div class="offer-item">
+                    <div class="offer-left">
+                        <span class="offer-emoji">${o.icon}</span>
+                        <div>
+                            <div class="offer-name">${o.name}</div>
+                            <div class="offer-desc">${o.commune} · ${o.deal}</div>
+                        </div>
+                    </div>
+                    <div class="offer-actions">
+                        <button class="btn-edit" onclick="editLocal(${i})">✏️</button>
+                        <button class="btn-delete" onclick="deleteLocal(${i})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editLocal(i) {
+            const o = localDataList[i];
+            document.getElementById('local-name').value = o.name;
+            document.getElementById('local-commune').value = o.commune;
+            document.getElementById('local-deal').value = o.deal;
+            editingId = i;
+            editingType = 'local';
+            showToast('📝 Mode édition');
+        }
+
+        function deleteLocal(i) {
+            localDataList.splice(i, 1);
+            renderLocal();
+            showToast('🗑️ Offre supprimée');
+        }
+
+        // CLEAR
+        function clearForm(type) {
+            if (type === 'flash') {
+                document.getElementById('flash-title').value = '';
+                document.getElementById('flash-cat').value = '';
+                document.getElementById('flash-old').value = '';
+                document.getElementById('flash-new').value = '';
+                document.getElementById('flash-shop').value = '';
+                document.querySelectorAll('#flash-emojis .emoji-option').forEach(o => o.classList.remove('selected'));
+            }
+            if (type === 'national') {
+                document.getElementById('nat-partner').value = '';
+                document.getElementById('nat-deal').value = '';
+                document.querySelectorAll('#nat-emojis .emoji-option').forEach(o => o.classList.remove('selected'));
+            }
+            if (type === 'local') {
+                document.getElementById('local-name').value = '';
+                document.getElementById('local-deal').value = '';
+                document.querySelectorAll('#local-emojis .emoji-option').forEach(o => o.classList.remove('selected'));
+            }
+        }
+
+        // JSON PREVIEW
+        function showJson(type) {
+            const preview = document.getElementById('json-preview');
+            if (type === 'flash') {
+                preview.textContent = JSON.stringify({ offers: flashData }, null, 2);
+            }
+            if (type === 'national') {
+                preview.textContent = JSON.stringify({ deals: nationalData.map(n => ({
+                    title: n.partner, description: n.deal, emoji: n.icon,
+                    category: 'national', validated: true
+                })) }, null, 2);
+            }
+            if (type === 'local') {
+                preview.textContent = JSON.stringify({ deals: localDataList.map(l => ({
+                    title: l.name, description: l.deal, emoji: l.icon,
+                    commune: l.commune, category: 'local', validated: true
+                })) }, null, 2);
+            }
+        }
+
+        // DOWNLOAD
+        function downloadFile(filename, data) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadAll() {
+            downloadFile('flash.json', { offers: flashData });
+            downloadFile('deals.json', { deals: nationalData.map(n => ({
+                title: n.partner, description: n.deal, emoji: n.icon,
+                category: 'national', validated: true
+            })) });
+            downloadFile('local.json', { deals: localDataList.map(l => ({
+                title: l.name, description: l.deal, emoji: l.icon,
+                commune: l.commune, category: 'local', validated: true
+            })) });
+            showToast('💾 3 fichiers téléchargés');
+        }
+
+        // LOAD FROM FILES
+        function loadFromFiles() {
+            document.getElementById('file-input').click();
+        }
+
+        document.getElementById('file-input').addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files);
+            for (const file of files) {
+                const text = await file.text();
+                const data = JSON.parse(text);
+                
+                if (file.name === 'flash.json' && data.offers) {
+                    flashData = data.offers;
+                    renderFlash();
+                }
+                if (file.name === 'deals.json' && data.deals) {
+                    nationalData = data.deals.map(d => ({
+                        partner: d.title, deal: d.description, icon: d.emoji
+                    }));
+                    renderNational();
+                }
+                if (file.name === 'local.json' && data.deals) {
+                    localDataList = data.deals.map(d => ({
+                        name: d.title, commune: d.commune, deal: d.description, icon: d.emoji
+                    }));
+                    renderLocal();
+                }
+            }
+            showToast('📂 Données chargées');
+        });
+
+        // INIT
+        renderFlash();
+        renderNational();
+        renderLocal();
+    </script>
+
+</body>
+</html>

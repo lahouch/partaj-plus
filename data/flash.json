@@ -1,0 +1,28 @@
+{
+  "offers": [
+    {
+      "title": "Philips Airfryer XXL",
+      "cat": "Cuisine",
+      "old": 249,
+      "new": 179,
+      "shop": "Amazon.fr",
+      "icon": "🍳"
+    },
+    {
+      "title": "Sony WH-1000XM4",
+      "cat": "Tech",
+      "old": 329,
+      "new": 229,
+      "shop": "Amazon.fr",
+      "icon": "🎧"
+    },
+    {
+      "title": "Senseo Original",
+      "cat": "Café",
+      "old": 79,
+      "new": 59,
+      "shop": "Bol.com",
+      "icon": "☕"
+    }
+  ]
+}

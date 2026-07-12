@@ -392,26 +392,51 @@
 <script>
     const validCodes = ["DEMO2026", "PARTAJ26", "PEETERS26", "BRUXELLES"];
 
-    const flashOffers = [
-        { title: "Philips Airfryer XXL", cat: "Cuisine", old: 249, new: 179, shop: "Amazon.fr", icon: "🍳" },
-        { title: "Sony WH-1000XM4", cat: "Tech", old: 329, new: 229, shop: "Amazon.fr", icon: "🎧" },
-        { title: "Senseo Original", cat: "Café", old: 79, new: 59, shop: "Bol.com", icon: "☕" }
-    ];
+    let flashOffers = [];
+    let nationalOffers = [];
+    let localData = {};
 
-    const nationalOffers = [
-        { partner: "Kinepolis", deal: "Ticket à 11,20€", icon: "🎬" },
-        { partner: "Walibi", deal: "-20% sur l'entrée", icon: "🎢" },
-        { partner: "Booking.com", deal: "Statut Genius", icon: "🏨" },
-        { partner: "Zalando", deal: "-10% Welcome", icon: "🛍️" },
-        { partner: "AS Adventure", deal: "-10% Outdoor", icon: "🥾" },
-        { partner: "Pairi Daiza", deal: "-10% Abo", icon: "🐼" }
-    ];
-
-    const localData = {
-        anderlecht: [{ name: "Le Burger du Coin", deal: "-15% addition", icon: "🍔" }, { name: "Laser Game", deal: "Soft offert", icon: "🎯" }],
-        evere: [{ name: "Pizzeria Da Luigi", deal: "Dessert offert", icon: "🍕" }, { name: "Evere Padel", deal: "-10% terrain", icon: "🎾" }],
-        ixelles: [{ name: "The Daily Grind", deal: "-10% café", icon: "☕" }, { name: "Librairie Flagey", deal: "-5% livres", icon: "📚" }]
-    };
+    async function loadData() {
+        try {
+            const [flashRes, dealsRes, localRes] = await Promise.all([
+                fetch('data/flash.json'),
+                fetch('data/deals.json'),
+                fetch('data/local.json')
+            ]);
+            
+            const flashData = await flashRes.json();
+            const dealsData = await dealsRes.json();
+            const localDataFile = await localRes.json();
+            
+            flashOffers = flashData.offers || [];
+            nationalOffers = (dealsData.deals || []).map(d => ({
+                partner: d.title,
+                deal: d.description,
+                icon: d.emoji
+            }));
+            
+            localData = {};
+            (localDataFile.deals || []).forEach(d => {
+                if (!localData[d.commune]) localData[d.commune] = [];
+                localData[d.commune].push({
+                    name: d.title,
+                    deal: d.description,
+                    icon: d.emoji
+                });
+            });
+        } catch (err) {
+            console.error('Erreur chargement données:', err);
+            flashOffers = [
+                { title: "Philips Airfryer XXL", cat: "Cuisine", old: 249, new: 179, shop: "Amazon.fr", icon: "🍳" }
+            ];
+            nationalOffers = [
+                { partner: "Kinepolis", deal: "Ticket à 11,20€", icon: "🎬" }
+            ];
+            localData = {
+                anderlecht: [{ name: "Le Burger du Coin", deal: "-15% addition", icon: "🍔" }]
+            };
+        }
+    }
 
     function checkAccess() {
         const input = document.getElementById('access-code-input').value.toUpperCase();
@@ -506,7 +531,9 @@
         `).join('');
     }
 
-    window.onload = () => {
+    window.onload = async () => {
+        await loadData();
+        
         // Auto-login via URL ?code=XXX
         const params = new URLSearchParams(window.location.search);
         const urlCode = params.get('code');
